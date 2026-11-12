@@ -281,7 +281,7 @@ export default function Game() {
       <div className="card cheatCard" id="cheatBox" hidden>
         <h1>Enter Code</h1>
         <p className="adminHint">
-          Type the code and press Unlock. Hint: try <kbd>admin</kbd> for powers or <kbd>guns</kbd> for weapons.
+          The world is paused while this box is open. Type the code and press Unlock. Hint: try <kbd>admin</kbd> for powers or <kbd>guns</kbd> for weapons.
         </p>
         <input
           id="cheatInput"
