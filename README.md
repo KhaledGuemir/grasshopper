@@ -175,6 +175,9 @@ explicitly fill the `TURN_*` variables with a free, hard-capped service you have
 
 ### Deployment notes
 
+See [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) for the exact free-tier Vercel commands and
+environment setup.
+
 - Deploy the Next.js app to Vercel Hobby as usual. No `vercel.json` or custom server is required.
 - Create one **free Upstash Redis database directly on Upstash**, with no credit card and no paid
   plan. Set `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` in Vercel. Do not attach a card or
