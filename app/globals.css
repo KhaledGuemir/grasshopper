@@ -103,6 +103,22 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
 .btn:focus-visible{outline:3px solid var(--barn);outline-offset:3px}
 
+/* Gender / skin picker */
+.genderPick{margin:0 0 20px}
+.genderQ{font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin:0 0 9px}
+.genderRow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.genderBtn{display:grid;justify-items:center;gap:5px;background:#fff;color:var(--ink);font-family:var(--body);border:3px solid var(--ink);border-radius:14px;box-shadow:0 4px 0 var(--ink);padding:9px 4px 8px;cursor:pointer}
+.genderBtn:hover{background:#fffdf3}
+.genderBtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.genderBtn.on{background:var(--hay)}
+.genderBtn:focus-visible{outline:3px solid var(--barn);outline-offset:2px}
+.gFace{width:38px;height:38px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:22px;line-height:1}
+.genderBtn[data-gender="unknown"] .gFace{background:#b9b6c4;color:#2c2340}
+.genderBtn[data-gender="female"] .gFace{background:#f2c7a5;color:#b64b74}
+.genderBtn[data-gender="male"] .gFace{background:#e9b98e;color:#2f5639}
+.gTag{font-size:14px;font-weight:800;line-height:1}
+.gSub{font-size:11px;font-weight:700;opacity:.65;line-height:1}
+
 #loadingMenu { z-index: 100; background: var(--sky); }
 .spinner { width: 40px; height: 40px; border: 5px solid var(--ink); border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; margin-top: 15px;}
 @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

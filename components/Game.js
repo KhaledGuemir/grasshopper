@@ -140,6 +140,10 @@ export default function Game() {
             </dd>
             <dt>Look</dt>
             <dd>Move mouse (click to lock) or drag screen</dd>
+            <dt>View</dt>
+            <dd>
+              <kbd>F3</kbd> switch between first person and seeing your avatar
+            </dd>
             <dt>Action</dt>
             <dd>
               <kbd>F</kbd> or click to Lift/Feed/Ride/Eat
@@ -155,6 +159,34 @@ export default function Game() {
               AK-47 full-auto)
             </dd>
           </dl>
+          <div className="genderPick">
+            <div className="genderQ" id="genderQ">
+              What&apos;s your gender?
+            </div>
+            <div className="genderRow" role="group" aria-labelledby="genderQ">
+              <button className="genderBtn" data-gender="unknown" type="button" aria-pressed="false">
+                <span className="gFace" aria-hidden="true">
+                  ?
+                </span>
+                <span className="gTag">Unknown</span>
+                <span className="gSub">? skin</span>
+              </button>
+              <button className="genderBtn" data-gender="female" type="button" aria-pressed="false">
+                <span className="gFace" aria-hidden="true">
+                  ♀
+                </span>
+                <span className="gTag">Female</span>
+                <span className="gSub">girl</span>
+              </button>
+              <button className="genderBtn" data-gender="male" type="button" aria-pressed="false">
+                <span className="gFace" aria-hidden="true">
+                  ♂
+                </span>
+                <span className="gTag">Male</span>
+                <span className="gSub">boy</span>
+              </button>
+            </div>
+          </div>
           <button className="btn" id="play" type="button">
             Start exploring
           </button>
@@ -165,12 +197,13 @@ export default function Game() {
         <div className="card adminCard">
           <h1>Admin</h1>
           <p className="adminHint">
-            Cheat unlocked — everything is yours. Press <kbd>P</kbd> or the ADMIN button to open this panel.
+            Admin unlocked — everything is yours. Press <kbd>F2</kbd> or <kbd>P</kbd> to open this panel.
             Spawn any creature or item, grant every weapon and food, teleport to every biome, lift anything,
             turn on god mode, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
             <kbd>4</kbd> to switch guns, <kbd>E</kbd> or right-click to fire. Flight: <kbd>V</kbd>, then look
             up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
-            land at your crosshair. Turn Lift Everything off to open chests or eat meat.
+            land at your crosshair. Tornadoes lift animals and will carry you to the top. Turn Lift Everything
+            off to open chests or eat meat.
           </p>
           <p className="adminMsg" id="adminMsg" />
           <div className="adminGrid">
@@ -298,7 +331,7 @@ export default function Game() {
       <div className="wrap" id="cheatBox" hidden>
         <div className="card cheatCard">
           <h1>Enter Code</h1>
-          <p className="adminHint">Enter the secret code to unlock admin powers.</p>
+          <p className="adminHint">Enter the admin code to unlock admin powers.</p>
           <input
             id="cheatInput"
             className="cheatIn"
