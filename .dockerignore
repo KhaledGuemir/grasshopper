@@ -1,0 +1,13 @@
+.git
+.gitignore
+.next
+node_modules
+npm-debug.log*
+.env
+.env.*
+!.env.example
+tests
+docs
+tools
+*.md
+!README.md

@@ -35,7 +35,7 @@ Use the REST values, not the `redis://` connection string.
 
 ## 3. Link the project
 
-From `D:\khaled  games\grasshopper`:
+From the repository root:
 
 ```bash
 npx vercel link
@@ -52,7 +52,10 @@ Use the Vercel dashboard: Project → Settings → Environment Variables. Add th
 | --- | --- |
 | `UPSTASH_REDIS_REST_URL` | Your Upstash REST URL |
 | `UPSTASH_REDIS_REST_TOKEN` | Your Upstash REST token |
-| `ROOM_SECRET` | A long random string (32+ characters) |
+| `ROOM_SECRET` | Optional but recommended: a long random string |
+
+If `ROOM_SECRET` is omitted, the app derives a shared signing key from the Redis
+credentials, so all Function instances still accept each other's tokens.
 
 Generate `ROOM_SECRET`:
 
@@ -66,8 +69,9 @@ or in PowerShell:
 [Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
 ```
 
-Leave `TURN_URL`, `TURN_SECRET`, `TURN_USERNAME`, `TURN_CREDENTIAL` unset. This project is
-STUN-only and must not be connected to a paid TURN service.
+Leave `TURN_URL`, `TURN_SECRET`, `TURN_USERNAME`, `TURN_CREDENTIAL` unset for the free setup.
+Public STUN needs no key, and the app automatically falls back to its own HTTP relay when
+WebRTC cannot connect. A TURN server is optional.
 
 Optional: `NEXT_PUBLIC_MULTIPLAYER=1`. Leave it unset to keep the panel visible.
 
@@ -88,10 +92,10 @@ Open:
 https://YOUR-PROJECT.vercel.app/api/health
 ```
 
-Expected:
+Expected (the exact secret source may differ):
 
 ```json
-{ "ok": true, "redis": "redis", "production": true, "roomSecret": true, "turn": false }
+{ "ok": true, "store": { "kind": "redis" }, "mode": "serverless", "redis": true, "turn": false }
 ```
 
 Then:
@@ -110,7 +114,9 @@ Then:
 - Rooms are capped at 6 players and expire after 2 hours.
 - Close rooms when finished instead of leaving the host tab open all day.
 - The host tab must remain open and visible; it runs the world.
-- No TURN: same-Wi-Fi and many home networks work; some symmetric NAT/corporate networks fail.
+- No TURN: same-Wi-Fi and many home networks connect directly. If WebRTC fails, the client
+  falls back to the app's HTTP relay, which works through NAT but consumes Function invocations
+  and adds latency. For heavy use, self-host the app instead (see docs/SELF_HOSTING.md).
 
 ## If you cannot deploy from the CLI
 
@@ -118,7 +124,7 @@ You can import the GitHub repository into Vercel from the dashboard:
 
 1. Vercel → Add New → Project.
 2. Import `KhaledGuemir/grasshopper`.
-3. Select branch `feat/multiplayer`.
+3. Select the branch you deployed (for example `nextversion`).
 4. Add the three environment variables.
 5. Deploy.
 

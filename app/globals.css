@@ -117,6 +117,9 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 
 /* Invite panel */
 #invitePanel{z-index:40}
+#netLost{z-index:60}
+#netLost .card{text-align:center}
+#netLost .mpRow{justify-content:center}
 .inviteCard{width:min(460px,100%);text-align:center}
 .inviteCard h1{font-size:clamp(28px,7vw,38px);margin-bottom:6px}
 .inviteCode{font-family:var(--display);font-size:clamp(38px,12vw,58px);letter-spacing:.16em;line-height:1;color:var(--barn);text-shadow:0 3px 0 var(--ink);margin:10px 0 14px}

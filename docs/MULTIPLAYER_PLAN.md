@@ -22,6 +22,11 @@ long-lived game server
 - [x] Two-tab headless Chrome WebRTC smoke test: invite/QR, checksum, channels, movement, rejoin.
 - [x] Client reload rejoin/reconnect while the host room is alive.
 - [ ] Shared chest looting, carry, ride, HP/hunger ownership, host migration.
+- [x] Zero-config production hardening: in-process store with TTLs, no known dev signing key,
+      request-size/rate limits, atomic mailbox drain, presence cleanup, reconnect with backoff.
+- [x] Free HTTP relay fallback (`/api/relay`) used automatically when WebRTC cannot connect,
+      so restrictive NAT/firewalls still work without TURN or any external key.
+- [x] Self-host packaging (Docker/compose, optional coturn) and zero-config docs.
 - [ ] Real-device/internet playtest and free-tier usage check.
 
 `npm test` covers the RNG/world checksum and the room/signal API flow. `npm run test:browser`

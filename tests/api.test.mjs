@@ -29,6 +29,7 @@ test('create, join, signal, heartbeat and status', async () => {
   assert.equal(host.code.length, 6);
   assert.ok(host.seed > 0);
   assert.ok(host.token);
+  assert.equal(host.store, 'memory');
 
   const joined = await joinRoom(
     req('/api/rooms/join', { method: 'POST', body: { code: host.code, name: 'Client' } })
@@ -67,6 +68,7 @@ test('create, join, signal, heartbeat and status', async () => {
   assert.equal(rejoin.status, 200);
   const rejoinData = await rejoin.json();
   assert.equal(rejoinData.seed, host.seed);
+  assert.ok(rejoinData.token);
 
   const status = await roomStatus(req(`/api/rooms/${host.code}`), { params: Promise.resolve({ code: host.code }) });
   const info = await status.json();
@@ -110,9 +112,13 @@ test('rejects missing and malformed tokens', async () => {
   assert.equal(bad.status, 401);
 });
 
-test('health reports memory in development', async () => {
+test('health reports the zero-config in-process store', async () => {
   const res = await health();
   const data = await res.json();
   assert.equal(data.ok, true);
-  assert.equal(data.redis, 'memory');
+  assert.equal(data.mode, 'self-hosted');
+  assert.equal(data.store.kind, 'memory');
+  assert.equal(data.redis, false);
+  assert.equal(data.roomSecret, 'generated');
+  assert.equal(data.protocol, 1);
 });

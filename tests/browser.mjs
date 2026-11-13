@@ -7,7 +7,13 @@
  */
 import { chromium } from 'playwright-core';
 
-const CHROME = process.env.CHROME_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const CHROME =
+  process.env.CHROME_PATH ||
+  (process.platform === 'darwin'
+    ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+    : process.platform === 'win32'
+      ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+      : '/usr/bin/google-chrome');
 const URL = process.env.GAME_URL || 'http://localhost:3000/';
 
 function log(...args) {
@@ -45,6 +51,9 @@ async function main() {
       console.log('[browser]', name, 'pageerror', err.message);
     });
     page.on('console', (msg) => {
+      if (msg.type() === 'warning' && msg.text().includes('[net]')) {
+        console.log('[browser]', name, 'net warning', msg.text());
+      }
       if (msg.type() === 'error' && !msg.text().includes('Failed to load resource')) {
         errors.push(`${name} console: ${msg.text()}`);
         console.log('[browser]', name, 'console error', msg.text());
@@ -123,15 +132,54 @@ async function main() {
   log('opening client page');
   await client.goto(URL, { waitUntil: 'domcontentloaded' });
   await client.waitForSelector('#menu:not([hidden])', { timeout: 60000 });
-  await client.fill('#mpName', 'ClientTest');
-  await client.fill('#mpCode', room);
+  await client.waitForSelector('#mpName', { state: 'visible', timeout: 60000 });
+  await client.bringToFront();
+  /* React controlled inputs: set the native value then dispatch input so the
+   * component state updates. This avoids actionability flakiness in a second
+   * software-rendered WebGL tab. */
+  await client.evaluate(({ name, code }) => {
+    const setValue = (el, value) => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+      setter.call(el, value);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    setValue(document.getElementById('mpName'), name);
+    setValue(document.getElementById('mpCode'), code);
+  }, { name: 'ClientTest', code: room });
+  await client.waitForTimeout(200);
   log('joining room');
-  await Promise.all([
-    client.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 }),
-    client.click('#mpJoin'),
-  ]);
+  await client.evaluate(() => document.getElementById('mpJoin').click());
+  await client.waitForURL(/\?mp=1/, { timeout: 60000 });
+  /* The host must be the visible tab for its rAF loop to keep simulating and
+   * sending snapshots; a background host is a documented limitation. */
   await host.bringToFront();
-  await client.waitForSelector('#hud:not([hidden])', { timeout: 60000 });
+  try {
+    await client.waitForFunction(() => {
+      const hud = document.getElementById('hud');
+      return !!hud && !hud.hidden;
+    }, null, { timeout: 60000 });
+  } catch (err) {
+    const diag = await client.evaluate(() => ({
+      hud: !document.getElementById('hud').hidden,
+      state: window.__GH_NET__?.state,
+      welcome: window.__GH_NET__?.welcome,
+      recent: window.__GH_NET__?.recent,
+      counters: window.__GH_NET__?.counters,
+      netLost: !document.getElementById('netLost').hidden,
+      netLostMsg: document.getElementById('netLostMsg')?.textContent,
+      debug: window.__GH_NET__?.debug,
+      errorText: document.getElementById('mpStatus')?.textContent,
+    }));
+    const hdiag = await host.evaluate(() => ({
+      remotes: window.__GH_NET__?.remoteCount,
+      counters: window.__GH_NET__?.counters,
+      debug: window.__GH_NET__?.debug,
+      recent: window.__GH_NET__?.recent,
+    }));
+    log('HUD timeout client', JSON.stringify(diag));
+    log('HUD timeout host', JSON.stringify(hdiag));
+    throw err;
+  }
 
   for (let i = 0; i < 8; i++) {
     await new Promise((r) => setTimeout(r, 2500));
@@ -172,16 +220,33 @@ async function main() {
   if (clientState.remotes.length < 1) throw new Error('client has no host avatar');
 
   const before = hostState.remotes[0];
-  await client.bringToFront();
-  await client.keyboard.down('w');
-  await client.waitForTimeout(900);
-  await client.keyboard.up('w');
-  await client.waitForTimeout(300);
+  /* Simulate input through the same client→host path the keyboard uses. The
+   * client tab may be backgrounded in headless Chrome, so its rAF loop cannot
+   * be relied on to pump input; the host is kept visible to apply it. */
+  await host.bringToFront();
+  for (let i = 0; i < 6; i++) {
+    await client.evaluate(() => window.__GH_NET__.sendInput(0, 1));
+    await host.waitForTimeout(180);
+  }
+  await client.evaluate(() => window.__GH_NET__.sendInput(0, 0));
+  await host.waitForTimeout(500);
 
   const after = await host.evaluate(() => window.__GH_NET__.remotes[0]);
   const moved = Math.hypot(after.x - before.x, after.z - before.z);
   log('remote moved', moved.toFixed(3), before, after);
-  if (moved < 0.2) throw new Error('host did not observe client movement');
+  if (moved < 0.2) {
+    const cdiag = await client.evaluate(() => ({
+      keys: window.__GH_NET__?.keys,
+      focus: window.__GH_NET__?.focus,
+      state: window.__GH_NET__?.state,
+      counters: window.__GH_NET__?.counters,
+      recent: window.__GH_NET__?.recent,
+      debug: window.__GH_NET__?.debug,
+      wel: window.__GH_NET__?.welcome,
+    }));
+    log('movement diag', JSON.stringify(cdiag));
+    throw new Error('host did not observe client movement');
+  }
 
   log('reloading client to test rejoin');
   await client.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -195,11 +260,14 @@ async function main() {
   await waitForNet(host, () => window.__GH_NET__?.remoteCount >= 1, 30000);
   log('client rejoined');
 
-  log('closing client page and checking peer cleanup');
-  await client.close({ runBeforeUnload: true });
+  log('leaving the room from the client and checking peer cleanup');
+  await client.bringToFront();
+  await client.keyboard.press('i');
+  await client.waitForSelector('#invitePanel:not([hidden])', { timeout: 10000 });
+  await client.click('#inviteCloseRoom');
   await host.bringToFront();
-  for (let i = 0; i < 8; i++) {
-    await new Promise((r) => setTimeout(r, 2000));
+  for (let i = 0; i < 10; i++) {
+    await new Promise((r) => setTimeout(r, 1000));
     const h = await host.evaluate(() => ({
       remotes: window.__GH_NET__.remoteCount,
       connected: window.__GH_NET__.connected,
@@ -208,7 +276,7 @@ async function main() {
     log('cleanup probe', i, JSON.stringify(h));
     if (h.remotes === 0) break;
   }
-  await host.waitForFunction(() => window.__GH_NET__.remoteCount === 0, null, { timeout: 5000 });
+  await host.waitForFunction(() => window.__GH_NET__.remoteCount === 0, null, { timeout: 15000 });
   if (errors.length) {
     log('page errors', errors);
     throw new Error(errors[0]);

@@ -8,7 +8,7 @@ wolves come out.
 ![stack](https://img.shields.io/badge/Next.js-16-000)
 ![stack](https://img.shields.io/badge/React-19-61DAFB)
 ![stack](https://img.shields.io/badge/three.js-0.128-000)
-![stack](https://img.shields.io/badge/Vercel-ready-000)
+![stack](https://img.shields.io/badge/multiplayer-zero--config-brightgreen)
 
 ## Features
 
@@ -24,183 +24,134 @@ wolves come out.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
-- **Avatar picker and third-person view** — choose a character style and press <kbd>F3</kbd> to see
-  your avatar.
-- **Death and respawn screen** — collapse from damage or starvation, then respawn at the pasture.
-- **Private co-op rooms** — host a room and share a 6-character code, invite link or QR code; play
-  together through WebRTC data channels. Vercel only handles the room/signaling API; gameplay
-  traffic is peer-to-peer.
+- **Avatar picker and third-person view** — press <kbd>F3</kbd> to see your avatar.
+- **Death and respawn screen** — collapse from damage or starvation, then respawn.
+- **Private co-op rooms** — host a room, share a 6-character code, invite link or
+  QR code, and play with up to 5 friends (6 players total). No account, API key, Redis or TURN
+  service is required.
 
 ## Tech stack
 
-- **Next.js** `^16.4.6` (App Router)
-- **React** `^19.1.0`
-- **three.js** `0.128.0`
-- **Vercel Functions + Redis** for room/signaling metadata
-- **WebRTC** for gameplay transport
+- **Next.js** `^16.4.6` (App Router), **React** `^19.1.0`, **three.js** `0.128.0`
+- **WebRTC data channels** for direct gameplay traffic
+- **HTTP relay fallback** through the app's own API when WebRTC cannot connect
+- **In-process room store** by default; optional Redis for multi-instance hosting
 
 ## Getting started
 
-> Requires Node.js 20+ (Next.js 16).
+> Requires Node.js 20.9+ (Next.js 16).
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Run the dev server (hot reload)
-npm run dev
-
-# 3. Open http://localhost:3000
+npm ci
+npm run dev        # http://localhost:3000
 ```
 
 ### Production
 
 ```bash
-npm run build   # build for production
-npm start       # serve the production build
-npm test        # deterministic-world + room/signal API tests
-npm run test:browser  # two-tab WebRTC smoke test (needs `npm run dev` + Chrome)
-```
-
-`test:browser` launches the installed Chrome through `playwright-core`. Set `CHROME_PATH` if
-Chrome is installed somewhere else.
-
-## Hosting locally (recommended for a small kids game)
-
-You do **not** need Vercel or Redis for a LAN game. The room store falls back to memory in a single
-local server process.
-
-```bash
-npm install
 npm run build
 npm start
+npm test              # deterministic world, room API, relay, store and security tests
+npm run test:browser  # two-tab co-op smoke test (needs `npm run dev` + Chrome)
 ```
 
-Then open the **Network URL** printed by Next (for example `http://192.168.0.66:3000`) on the host
-machine, especially if phones will scan the QR. `http://localhost:3000` works for tabs on the same
-PC, but a phone cannot use a `localhost` invite link. The host clicks **Host room**, then presses
-<kbd>I</kbd> (or **INVITE** on touch) and shares the code, link or QR. The kids scan/open it and
-click **Join room**. Rooms are capped at 6 players by default.
+`test:browser` uses `playwright-core` with an installed Chrome. Set
+`CHROME_PATH` if Chrome is in a non-standard location.
 
-- The host tab must stay open and active; the host browser runs the world.
-- No `ROOM_SECRET`, Redis or TURN is required on the same LAN.
-- If other devices cannot connect, allow Node/port 3000 through the host's firewall.
-- `npm run dev` works the same way for development.
-- A local `npm start` uses the in-memory room store. That is fine for one process; only Vercel needs
-  Redis because its Functions are multi-instance.
+## Multiplayer
 
-### Playing with friends elsewhere
+### The short version
 
-| Option | What it costs | What to know |
-| --- | --- | --- |
-| **Same Wi-Fi** | Free | Simplest; no TURN, no Redis, no accounts |
-| **Tailscale / private VPN** | Free for personal use | Put host and kids' devices on the same private network; no public URL |
-| **Cloudflare Tunnel or ngrok** | Free quick tunnels | Exposes the local server on an HTTPS URL; the host machine must stay on |
-| **Vercel + Upstash Redis** | Free/Hobby tiers | Always-on URL; needs the env vars; STUN-only, so some restrictive NATs will fail |
-
-For a non-commercial kids game, start with **same Wi-Fi** or **Tailscale**. Use a public tunnel only
-if you are comfortable with the URL being reachable; the room code is the only access gate. The
-host's machine must stay awake while the room is open.
-
-### Split option: Vercel UI + local signaling server
-
-You can keep the game UI on Vercel and run the room/signaling API on the local PC. This is useful if
-you want a nice permanent URL but do not want Redis or a paid server:
-
-1. On the local PC run `npm run build && npm start` (port `3000`).
-2. Expose that port with a tunnel, for example:
-   ```bash
-   cloudflared tunnel --url http://localhost:3000
-   ```
-   Copy the HTTPS URL it prints.
-3. In Vercel add `NEXT_PUBLIC_SIGNAL_URL=https://your-tunnel-url` and redeploy (this value is baked
-   in at build time).
-4. Players open the Vercel URL. The host creates a room; clients join; gameplay still travels
-   directly over WebRTC.
-
-Important: the local process is **signaling only**. The host browser still runs the world; the
-local server does not simulate the game. The tunnel and local server must stay up, and a quick
-Cloudflare tunnel gets a new URL each restart (use a named tunnel for a stable URL). If the local
-process restarts, in-memory rooms are lost.
-
-The signal URL must be HTTPS when the Vercel app is HTTPS (Cloudflare Tunnel and Tailscale Serve
-provide this). The signaling server allows cross-origin calls by default; set
-`CORS_ORIGIN=https://your-app.vercel.app` on the local server to restrict it.
-
-## Multiplayer (Vercel-compatible)
-
-The app deploys to Vercel with no custom server. Vercel API routes + Redis handle room creation,
-joining and WebRTC signaling; gameplay travels directly between the host and each client over
-WebRTC data channels.
-
-1. Click **Host room** on the start menu, then press <kbd>I</kbd> / **INVITE** to share the code,
-   link or QR. Guests can enter the code, or open the invite link to prefill it, then click
+1. Click **Host room**, then press <kbd>I</kbd> or tap **INVITE**.
+2. Share the code, invite link or QR code.
+3. Friends open the link (the code is prefilled) or enter the code, then click
    **Join room**.
-2. The browser reloads into the room, generates the shared seeded world and connects.
-3. The host's browser is authoritative. If the host closes the tab, the room ends.
+4. The host's browser runs the world. Keep that tab open.
 
-### Environment variables
+Everything runs from this one app. There is no signup, no dashboard to
+configure and no external API key.
 
-| Variable | Required | Purpose |
+### How the connection is made
+
+The host is authoritative. Its browser simulates the world; clients send inputs
+and receive snapshots. Two transports carry the same protocol:
+
+| Transport | When it is used | Notes |
 | --- | --- | --- |
-| `ROOM_SECRET` | Production | HMAC key for room/session tokens |
-| `KV_REST_API_URL` / `UPSTASH_REDIS_REST_URL` | Production | Redis REST endpoint |
-| `KV_REST_API_TOKEN` / `UPSTASH_REDIS_REST_TOKEN` | Production | Redis token |
-| `TURN_URL` | Leave blank | Optional TURN URI; **do not set** for the no-paid-service setup |
-| `TURN_SECRET` | Leave blank | Only if you later choose a free, hard-capped TURN provider |
-| `TURN_USERNAME` / `TURN_CREDENTIAL` | Leave blank | Only if you later choose a free, hard-capped TURN provider |
-| `NEXT_PUBLIC_MULTIPLAYER` | Optional | Set to `0` to hide the multiplayer panel |
-| `NEXT_PUBLIC_SIGNAL_URL` | Optional | Absolute URL of a separate signaling server; empty means same-origin |
-| `CORS_ORIGIN` | Optional | Allowed origin for cross-origin signaling; defaults to `*` |
+| **WebRTC data channels** | Default | Direct host↔client; public STUN needs no key. Lowest latency. |
+| **HTTP relay** | Automatic after ~9s if WebRTC fails, or if the direct link drops | Uses `/api/relay` mailboxes in this same server. Works through symmetric NAT, blocked UDP and restrictive firewalls. Slightly higher latency. |
 
-Local development falls back to an in-process room store when Redis is absent, so the lobby works
-without extra setup. Production requires Redis and `ROOM_SECRET`; `/api/health` reports missing
-configuration.
+That fallback is what makes the free setup usable on real networks without a
+paid TURN provider. If you want UDP latency for restrictive peers, you can
+optionally self-host `coturn` (still no account/key); see
+[deploy/coturn](deploy/coturn) and [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md).
 
-Direct WebRTC with public STUN works on most home networks but fails for some symmetric NAT,
-corporate and school networks. Vercel cannot host TURN. **This project deliberately ships STUN-only
-and does not configure a paid TURN service.** If a player cannot connect, use the same Wi-Fi, a
-private Tailscale network, or a different network. `/api/turn` returns only STUN unless you
-explicitly fill the `TURN_*` variables with a free, hard-capped service you have accepted.
+The server also handles room creation, join/rejoin, presence heartbeats,
+WebRTC signaling, the relay mailboxes and short-lived ICE credentials. Room
+state defaults to an in-process store with TTLs. That is the correct choice for
+one `npm start`/Docker container.
+
+### Hosting for free
+
+- **Same Wi-Fi** is the simplest: run `npm start`, open the **Network** URL
+  printed by Next, allow port 3000 through the firewall. No external service.
+- **Docker:** `docker compose up -d --build` serves the same zero-config stack.
+- **Internet play:** put the container behind any HTTPS reverse proxy or tunnel
+  you already have. See [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md) for a
+  Caddy example and hosting options.
+- **Vercel + Redis** still works if you prefer a permanent serverless URL, but
+  it needs a free Upstash/Vercel Redis database. It is optional, not required.
+  See [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md).
+
+The host's machine must stay awake while a room is open, and the host's browser
+tab must stay open. There is no host migration yet; if the host leaves, the
+room ends.
+
+### Optional environment variables
+
+Every variable is optional. The defaults are the zero-config setup.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `ROOM_SECRET` | random per process | Stable HMAC key for room tokens |
+| `STUN_URLS` | public list | Comma-separated STUN URIs |
+| `TURN_URL` / `TURN_SECRET` | unset | Optional self-hosted coturn |
+| `TURN_USERNAME` / `TURN_CREDENTIAL` | unset | Static TURN credentials |
+| `KV_REST_API_*` / `UPSTASH_REDIS_REST_*` | unset | Shared store for multiple instances |
+| `NEXT_PUBLIC_MULTIPLAYER` | enabled | Set `0` to hide the lobby |
+| `NEXT_PUBLIC_SIGNAL_URL` | same origin | Split UI/API deployment |
+| `CORS_ORIGIN` | `*` | Restrict cross-origin API calls |
+
+`GET /api/health` reports the active store, deployment mode, token-secret
+source, TURN status and protocol version.
 
 ### Current co-op limitations
 
-- The host is authoritative and there is no host migration; if the host leaves, the room ends.
-- Rooms are capped at 6 players and expire after 2 hours to keep free-tier usage bounded.
-- The host tab must stay open and visible; hidden/background tabs pause the host loop and polling.
-- Remote players can move, punch/shoot animals and open chests. Carrying, riding, feeding, eating
-  and full loot ownership are still host-side; the next iteration moves those commands onto the
-  host actor model.
-- Reloading a client re-registers through `/api/rooms/rejoin` and reconnects while the host room is
-  alive. Reloading the host still ends the room; there is no host migration.
-- The client renders synced NPC positions without local AI, so animations are basic until the
-  snapshot state machine is filled out.
+- Host-authoritative with **no host migration**; the host tab must stay open.
+- Rooms are capped at 6 players in the lobby (8 max server-side), expire after
+  2 hours, and are kept alive by the host heartbeat.
+- Clients automatically reconnect with backoff while the host room is alive;
+  reloading a client rejoins through `/api/rooms/rejoin`.
+- Punch/shoot, chest opening and player movement are replicated. Carrying,
+  riding, feeding and full loot/inventory ownership are still partly host-side.
+- NPC animation state is only partially replicated; clients interpolate positions
+  and basic states.
+- The HTTP relay is intended for self-hosting. On a serverless plan it still
+  works, but every relayed message consumes a function invocation.
 
-### Deployment notes
+### Free-tier notes (Vercel + Redis only)
 
-See [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md) for the exact free-tier Vercel commands and
-environment setup.
+The default self-hosted setup has no metered dependency. If you choose Vercel:
 
-- Deploy the Next.js app to Vercel Hobby as usual. No `vercel.json` or custom server is required.
-- Create one **free Upstash Redis database directly on Upstash**, with no credit card and no paid
-  plan. Set `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` in Vercel. Do not attach a card or
-  upgrade to a paid plan.
-- Add the environment variables to Preview and Production.
-- If you share a Preview URL, disable Vercel Deployment Protection or authenticate your testers.
-- `GET /api/health` should return `{ "ok": true, "redis": "redis" }` in production.
+- **Vercel Hobby** includes a generous function allowance; direct WebRTC
+  gameplay does not pass through Vercel.
+- **Upstash Free** (no card) is enough for many private rooms; signaling polling
+  uses a few thousand commands per 2-hour room. Close idle rooms.
+- Prefer the self-hosted relay/TURN setup if you expect restrictive networks;
+  relay traffic is intentionally not routed through Vercel in the default
+  deployment.
 
-### Free-tier budget (approx.)
-
-- **Upstash Free:** ~250 MB, 500,000 commands/month, 10 GB bandwidth, 1 database, no credit card.
-  The host polls signaling every 1.5 s, so a 2-hour room uses roughly 5,000 commands; that is about
-  100 two-hour rooms/month before the command quota. Leaving a room open 24/7 would use it in days,
-  so close rooms after playing.
-- **Vercel Hobby:** 1,000,000 function invocations and 4 CPU-hours/month; these small signaling
-  checks are far below that for a family game. WebRTC gameplay does not pass through Vercel.
-- **TURN:** not used. If a player cannot connect directly, use same Wi-Fi/Tailscale rather than
-  adding a paid relay.
-
-No paid service or payment method is required for this setup.
+No paid service or payment method is required for the default setup.
 
 ## Controls
 
@@ -213,7 +164,7 @@ No paid service or payment method is required for this setup.
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
 | **E** | Punch — or shoot when a gun is armed |
-| **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount (context-sensitive) |
+| **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 4** | Select weapon (pistol / shotgun / rifle / AK-47) |
 | **P** | Open the admin panel |
@@ -236,45 +187,26 @@ grasshopper/
 │   ├── api/
 │   │   ├── rooms/         # create/join/rejoin/leave/status/heartbeat
 │   │   ├── signal/        # WebRTC offer/answer/ICE mailbox
-│   │   ├── turn/          # short-lived ICE servers
+│   │   ├── relay/         # HTTP gameplay relay fallback
+│   │   ├── turn/          # STUN (+ optional TURN) ICE servers
 │   │   └── health/        # deployment health check
-│   ├── layout.js          # Root layout, metadata, fonts (Nunito + Titan One)
+│   ├── layout.js          # Root layout, metadata, fonts
 │   ├── page.js            # Renders <Game/>
-│   └── globals.css        # Global styles (extracted from the original HTML)
-├── components/
-│   └── Game.js            # Client component: canvas, HUD, menu, cheat box, touch, lobby
+│   └── globals.css        # Global styles
+├── components/Game.js     # Canvas, HUD, menu, lobby, overlays
 ├── lib/
-│   ├── game.js            # The game engine (world, entities, loop, culling, HUD, net hooks)
-│   ├── net/               # session, signaling, protocol, WebRTC transport
-│   ├── server/            # Redis, room store, tokens, API helpers
+│   ├── game.js            # World, entities, loop, HUD, net hooks
+│   ├── net/               # protocol, session, signaling, WebRTC + relay
+│   ├── server/            # room store, tokens, HTTP helpers
 │   └── world/             # deterministic RNG + world checksum
-├── tools/
-│   ├── extract.js         # One-shot extractor from the original single-file HTML
-│   └── esm-loader.mjs     # Test-only loader for lib/ ESM modules
-├── tests/                 # Node API, deterministic-world and browser co-op tests
-├── docs/
-│   └── MULTIPLAYER_PLAN.md
-├── jsconfig.json          # Path alias @/* -> ./*
-├── next.config.mjs        # reactStrictMode: false (single WebGL context boot)
-├── package.json
-└── .gitignore
+├── tests/                 # world, protocol, store, API, relay, security, browser
+├── deploy/coturn/         # optional self-hosted TURN
+├── docs/                  # self-hosting and deployment guides
+├── Dockerfile
+├── docker-compose.yml
+├── next.config.mjs
+└── package.json
 ```
-
-## About the extraction
-
-This project began as a single self-contained HTML file. `tools/extract.js`
-splits that file into a Next.js project:
-
-```bash
-node tools/extract.js <source.html>
-#   <style>  ->  app/globals.css
-#   <body>   ->  tools/body.html
-#   <script> IIFE  ->  the game module (lib/game.js)
-```
-
-`next.config.mjs` keeps `reactStrictMode: false` on purpose — the game boots a
-single WebGL context and registers global listeners once, and `components/Game.js`
-also guards against a double boot, so the world starts exactly once.
 
 ## License
 

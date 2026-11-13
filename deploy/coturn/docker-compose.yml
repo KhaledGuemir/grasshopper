@@ -1,0 +1,10 @@
+# Optional self-hosted TURN server. Linux + a public IP are required.
+services:
+  coturn:
+    image: coturn/coturn:4.6.2
+    restart: unless-stopped
+    # Host networking is the reliable way to expose the large UDP relay range.
+    network_mode: host
+    volumes:
+      - ./turnserver.conf:/etc/coturn/turnserver.conf:ro
+    command: ["-c", "/etc/coturn/turnserver.conf"]

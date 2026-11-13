@@ -225,7 +225,8 @@ export default function Game() {
             <h2>Play with friends</h2>
             <p className="mpNote">
               Host a private co-op room, share the 6-character code, and your friends join the same
-              pasture. The host&apos;s browser runs the world.
+              pasture. No account or API key is needed. The host&apos;s browser runs the world; if a
+              direct WebRTC connection is blocked, the app falls back to its own relay automatically.
             </p>
             <div className="mpRow">
               <input
@@ -530,6 +531,23 @@ export default function Game() {
           <div className="invitePlayers" id="invitePlayers" />
           <div className="mpRow">
             <button className="btn mpBtn ghost" id="inviteCloseRoom" type="button">
+              Leave room
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="wrap" id="netLost" hidden>
+        <div className="card">
+          <h1>Connection lost</h1>
+          <p id="netLostMsg" className="mpNote">
+            Trying to reach the host…
+          </p>
+          <div className="mpRow">
+            <button className="btn mpBtn" id="netRetryBtn" type="button">
+              Reconnect
+            </button>
+            <button className="btn mpBtn ghost" id="netLeaveBtn" type="button">
               Leave room
             </button>
           </div>
