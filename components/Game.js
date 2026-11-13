@@ -154,10 +154,6 @@ export default function Game() {
               Once found: <kbd>1</kbd>–<kbd>4</kbd> switch weapons, <kbd>E</kbd> or right-click to fire (hold for
               AK-47 full-auto)
             </dd>
-            <dt>Cheat</dt>
-            <dd>
-              Press <kbd>F2</kbd>, then type <kbd>admin</kbd> or <kbd>guns</kbd>
-            </dd>
           </dl>
           <button className="btn" id="play" type="button">
             Start exploring
@@ -169,16 +165,20 @@ export default function Game() {
         <div className="card adminCard">
           <h1>Admin</h1>
           <p className="adminHint">
-            Cheat unlocked — guns, powers and shortcuts. Press <kbd>P</kbd> or the ADMIN button to open this
-            panel. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd> to switch guns, <kbd>E</kbd> or
-            right-click to fire — hold either for the AK-47&apos;s full-auto fire. Flight: <kbd>V</kbd>, then
-            look up and hold <kbd>W</kbd> to climb. Chests can contain the rare AK-47. Aim first, then open this
-            panel: spawned things and the tornado land at your crosshair.
+            Cheat unlocked — everything is yours. Press <kbd>P</kbd> or the ADMIN button to open this panel.
+            Spawn any creature or item, grant every weapon and food, teleport to every biome, lift anything,
+            turn on god mode, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
+            <kbd>4</kbd> to switch guns, <kbd>E</kbd> or right-click to fire. Flight: <kbd>V</kbd>, then look
+            up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
+            land at your crosshair. Turn Lift Everything off to open chests or eat meat.
           </p>
           <p className="adminMsg" id="adminMsg" />
           <div className="adminGrid">
             <button className="abtn" id="abGuns" type="button">
-              Refill Guns + Ammo
+              All Weapons + Ammo
+            </button>
+            <button className="abtn" id="abAllFood" type="button">
+              All Food + Meat
             </button>
             <button className="abtn" id="abHeal" type="button">
               Heal Hearts
@@ -188,6 +188,12 @@ export default function Game() {
             </button>
             <button className="abtn" id="abGod" type="button">
               God Mode: OFF
+            </button>
+            <button className="abtn" id="abOneShot" type="button">
+              One-Shot Kill: OFF
+            </button>
+            <button className="abtn" id="abKillAll" type="button">
+              Kill All Animals
             </button>
             <button className="abtn" id="abInf" type="button">
               Infinite Ammo: OFF
@@ -229,6 +235,7 @@ export default function Game() {
           <div className="adminRow">
             <label htmlFor="abKind">Spawn anything</label>
             <select id="abKind">
+              <option value="everything">EVERYTHING (one of each)</option>
               <option value="cow">Cow</option>
               <option value="bull">Bull</option>
               <option value="sheep">Sheep</option>
@@ -262,9 +269,19 @@ export default function Game() {
               <option value="bale">Hay Bale</option>
               <option value="rock">Rock</option>
               <option value="barrel">Barrel</option>
+              <option value="chest">Loot Chest</option>
+              <option value="meat">Meat</option>
+              <option value="sword">Sword</option>
+              <option value="pistol">Pistol</option>
+              <option value="shotgun">Shotgun</option>
+              <option value="rifle">Rifle</option>
+              <option value="ak47">AK-47</option>
             </select>
             <button className="abtn" id="abSpawn" type="button">
               Spawn it
+            </button>
+            <button className="abtn" id="abSpawnAll" type="button">
+              Spawn EVERYTHING
             </button>
           </div>
           <div className="adminRow">
@@ -278,29 +295,29 @@ export default function Game() {
         </div>
       </div>
 
-      <div className="card cheatCard" id="cheatBox" hidden>
-        <h1>Enter Code</h1>
-        <p className="adminHint">
-          Type the code and press Unlock. Hint: try <kbd>admin</kbd> for powers or <kbd>guns</kbd> for weapons.
-        </p>
-        <input
-          id="cheatInput"
-          className="cheatIn"
-          type="text"
-          placeholder="Enter code…"
-          maxLength="24"
-          autoComplete="off"
-          autoCapitalize="off"
-          spellCheck={false}
-        />
-        <p className="adminMsg" id="cheatMsg" />
-        <div className="cheatRow">
-          <button className="btn" id="cheatGo" type="button">
-            Unlock
-          </button>
-          <button className="btn" id="cheatCancel" type="button">
-            Close (Esc)
-          </button>
+      <div className="wrap" id="cheatBox" hidden>
+        <div className="card cheatCard">
+          <h1>Enter Code</h1>
+          <p className="adminHint">Enter the secret code to unlock admin powers.</p>
+          <input
+            id="cheatInput"
+            className="cheatIn"
+            type="password"
+            placeholder="Enter code"
+            maxLength="24"
+            autoComplete="off"
+            autoCapitalize="off"
+            spellCheck={false}
+          />
+          <p className="adminMsg" id="cheatMsg" />
+          <div className="cheatRow">
+            <button className="btn" id="cheatGo" type="button">
+              Unlock
+            </button>
+            <button className="btn" id="cheatCancel" type="button">
+              Close (Esc)
+            </button>
+          </div>
         </div>
       </div>
     </>
