@@ -137,4 +137,10 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .cheatRow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .cheatRow .btn{font-size:19px;padding:9px 20px}
 
+/* Death / respawn */
+#deathMenu{z-index:50;background:rgba(28,14,10,.76)}
+.deathCard{text-align:center}
+.deathCard p{max-width:34ch;margin:0 auto 20px}
+.deathCard .btn{min-width:180px}
+
 @media (prefers-reduced-motion:reduce){#toast,#flash{transition:none}}

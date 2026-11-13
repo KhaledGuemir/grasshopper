@@ -320,6 +320,16 @@ export default function Game() {
           </div>
         </div>
       </div>
+
+      <div className="wrap" id="deathMenu" hidden>
+        <div className="card deathCard">
+          <h1>You Collapsed</h1>
+          <p id="deathMsg">Your hearts ran out.</p>
+          <button className="btn" id="respawnBtn" type="button">
+            Respawn
+          </button>
+        </div>
+      </div>
     </>
   );
 }
