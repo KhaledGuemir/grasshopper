@@ -5,12 +5,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node --no-warnings --experimental-loader ./tools/esm-loader.mjs tests/world.test.mjs && node --no-warnings --experimental-loader ./tools/esm-loader.mjs tests/api.test.mjs",
+    "test:browser": "node tests/browser.mjs"
   },
   "dependencies": {
+    "@upstash/redis": "^1.41.0",
     "next": "^16.4.6",
+    "qrcode": "^1.5.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "three": "0.128.0"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.65.0"
   }
 }

@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { start } from '@/lib/game';
+import { createRoom, joinRoom, leaveRoom } from '@/lib/net/signaling';
+import { clearSession, loadSession, saveSession } from '@/lib/net/session';
 
 // lib/game.js's start() is not idempotent (it creates a WebGL renderer on #c
 // and registers window listeners) and has no unmount cleanup, so guard the
@@ -9,11 +11,94 @@ import { start } from '@/lib/game';
 let booted = false;
 
 export default function Game() {
+  const [mpName, setMpName] = useState('');
+  const [mpCode, setMpCode] = useState('');
+  const [mpStatus, setMpStatus] = useState('');
+  const [mpBusy, setMpBusy] = useState(false);
+  const [mpSession, setMpSession] = useState(null);
+
   useEffect(() => {
     if (booted) return;
     booted = true;
     start();
   }, []);
+
+  useEffect(() => {
+    setMpSession(loadSession());
+    const code = new URLSearchParams(window.location.search).get('join');
+    if (code) {
+      const normalized = code.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+      if (normalized) {
+        setMpCode(normalized);
+        setMpStatus('Invite code filled in — enter your name and join.');
+        setTimeout(() => document.getElementById('mpName')?.focus(), 120);
+      }
+    }
+  }, []);
+
+  async function hostRoom() {
+    if (mpBusy) return;
+    setMpBusy(true);
+    setMpStatus('Creating room…');
+    try {
+      const data = await createRoom(mpName.trim() || 'Host', 6);
+      saveSession({
+        room: data.code,
+        seed: data.seed,
+        role: 'host',
+        peerId: data.peerId,
+        token: data.token,
+        hostPeerId: data.hostPeerId,
+        name: data.name || mpName.trim() || 'Host',
+        maxPlayers: data.maxPlayers || 6,
+      });
+      window.location.href = '/?mp=1';
+    } catch (err) {
+      setMpStatus('Could not create room: ' + (err.code || err.message || 'unknown error'));
+      setMpBusy(false);
+    }
+  }
+
+  async function join() {
+    if (mpBusy) return;
+    const code = mpCode.trim().toUpperCase();
+    if (!code) {
+      setMpStatus('Enter a room code first.');
+      return;
+    }
+    setMpBusy(true);
+    setMpStatus('Joining ' + code + '…');
+    try {
+      const data = await joinRoom(code, mpName.trim() || 'Player');
+      saveSession({
+        room: data.code,
+        seed: data.seed,
+        role: 'client',
+        peerId: data.peerId,
+        token: data.token,
+        hostPeerId: data.hostPeerId,
+        name: data.name || mpName.trim() || 'Player',
+        maxPlayers: data.maxPlayers || 6,
+      });
+      window.location.href = '/?mp=1';
+    } catch (err) {
+      setMpStatus('Could not join: ' + (err.code || err.message || 'unknown error'));
+      setMpBusy(false);
+    }
+  }
+
+  function resume() {
+    window.location.href = '/?mp=1';
+  }
+
+  function leave() {
+    const session = mpSession || loadSession();
+    if (session) leaveRoom(session);
+    clearSession();
+    setMpSession(null);
+    setMpStatus('Left the room. Reloading…');
+    window.location.href = '/';
+  }
 
   return (
     <>
@@ -47,6 +132,13 @@ export default function Game() {
             <b id="compassDir">N</b>
             <div id="compassNeedle">↑</div>
           </div>
+          <div className="pill stat" id="netPill" title="Multiplayer room" hidden>
+            <span className="k">Room</span>
+            <b id="netRoom">—</b>
+          </div>
+          <button className="pill" id="inviteBtn" type="button" title="Invite players — code, link and QR (I)" hidden>
+            INVITE
+          </button>
           <div
             className="pill stat"
             id="ammoPill"
@@ -129,6 +221,58 @@ export default function Game() {
             skyscrapers, walk up and press <kbd>F</kbd> to open one. They hold food, swords, guns, and sometimes
             a rare <b>AK-47</b>.
           </p>
+          <div className="mpPanel" hidden={process.env.NEXT_PUBLIC_MULTIPLAYER === '0'}>
+            <h2>Play with friends</h2>
+            <p className="mpNote">
+              Host a private co-op room, share the 6-character code, and your friends join the same
+              pasture. The host&apos;s browser runs the world.
+            </p>
+            <div className="mpRow">
+              <input
+                id="mpName"
+                className="mpInput"
+                value={mpName}
+                onChange={(e) => setMpName(e.target.value)}
+                placeholder="Your name"
+                maxLength={20}
+                autoComplete="off"
+                spellCheck={false}
+              />
+              <input
+                id="mpCode"
+                className="mpInput"
+                value={mpCode}
+                onChange={(e) => setMpCode(e.target.value.toUpperCase())}
+                placeholder="Room code"
+                maxLength={6}
+                autoCapitalize="characters"
+                autoComplete="off"
+                spellCheck={false}
+              />
+            </div>
+            <div className="mpRow">
+              <button className="btn mpBtn" id="mpHost" type="button" onClick={hostRoom} disabled={mpBusy}>
+                Host room
+              </button>
+              <button className="btn mpBtn" id="mpJoin" type="button" onClick={join} disabled={mpBusy}>
+                Join room
+              </button>
+            </div>
+            <p className="mpStatus" id="mpStatus" role="status">
+              {mpStatus}
+            </p>
+            {mpSession ? (
+              <div className="mpRow">
+                <button className="btn mpBtn" type="button" onClick={resume}>
+                  Resume {mpSession.room}
+                </button>
+                <button className="btn mpBtn ghost" type="button" onClick={leave}>
+                  Leave room
+                </button>
+              </div>
+            ) : null}
+          </div>
+
           <dl className="keys">
             <dt>Move</dt>
             <dd>
@@ -316,6 +460,44 @@ export default function Game() {
             </button>
             <button className="btn" id="cheatCancel" type="button">
               Close (Esc)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="wrap" id="invitePanel" hidden>
+        <div className="card inviteCard">
+          <h1>Invite players</h1>
+          <p className="mpNote">
+            Share the code or link. The host&apos;s browser runs the world, so keep this tab open and
+            visible while you play.
+          </p>
+          <div className="inviteCode" id="inviteCode">
+            —
+          </div>
+          <p className="mpNote" id="inviteHint" />
+          <div className="inviteLinkRow">
+            <input id="inviteLink" className="mpInput inviteLink" readOnly value="" aria-label="Invite link" />
+            <button className="btn mpBtn" id="inviteCopy" type="button">
+              Copy
+            </button>
+          </div>
+          <div className="mpRow">
+            <button className="btn mpBtn" id="inviteShare" type="button">
+              Share
+            </button>
+            <button className="btn mpBtn ghost" id="inviteClose" type="button">
+              Back
+            </button>
+          </div>
+          <div className="inviteQrBox">
+            <canvas id="inviteQr" width="220" height="220" aria-label="Invite QR code" />
+          </div>
+          <p className="mpNote invitePlayersLabel">Players</p>
+          <div className="invitePlayers" id="invitePlayers" />
+          <div className="mpRow">
+            <button className="btn mpBtn ghost" id="inviteCloseRoom" type="button">
+              Leave room
             </button>
           </div>
         </div>

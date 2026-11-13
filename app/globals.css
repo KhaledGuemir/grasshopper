@@ -102,6 +102,33 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .btn{font-family:var(--display);font-size:22px;background:var(--hay);color:var(--ink);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);border-radius:14px;padding:10px 22px;cursor:pointer}
 .btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
 .btn:focus-visible{outline:3px solid var(--barn);outline-offset:3px}
+.btn:disabled{opacity:.55;cursor:wait;transform:none;box-shadow:0 5px 0 var(--ink)}
+.btn.ghost{background:transparent;box-shadow:none;border-color:var(--ink)}
+
+/* Multiplayer panel inside the start menu */
+.mpPanel{border-top:3px dashed rgba(36,51,28,.35);border-bottom:3px dashed rgba(36,51,28,.35);padding:14px 0 6px;margin:4px 0 18px}
+.mpPanel h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1;margin:0 0 8px;color:var(--barn)}
+.mpNote{font-size:13px !important;line-height:1.4 !important;margin:0 0 10px !important;opacity:.85}
+.mpRow{display:flex;gap:8px;margin:0 0 8px;flex-wrap:wrap}
+.mpInput{flex:1 1 120px;min-width:0;font:inherit;font-size:15px;padding:9px 10px;border:3px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink);box-sizing:border-box}
+.mpInput:focus{outline:3px solid var(--barn);outline-offset:1px}
+.mpBtn{flex:1 1 150px;font-size:18px;padding:8px 12px}
+.mpStatus{min-height:1.4em;font-size:13px !important;font-weight:700;margin:2px 0 10px !important;color:var(--barn)}
+
+/* Invite panel */
+#invitePanel{z-index:40}
+.inviteCard{width:min(460px,100%);text-align:center}
+.inviteCard h1{font-size:clamp(28px,7vw,38px);margin-bottom:6px}
+.inviteCode{font-family:var(--display);font-size:clamp(38px,12vw,58px);letter-spacing:.16em;line-height:1;color:var(--barn);text-shadow:0 3px 0 var(--ink);margin:10px 0 14px}
+.inviteLinkRow{display:flex;gap:8px;align-items:stretch;margin:0 0 8px}
+.inviteLink{font-size:13px !important;text-align:left}
+.inviteLinkRow .mpBtn{flex:0 0 auto;font-size:17px;padding:8px 14px}
+.inviteQrBox{background:#fff;border:3px solid var(--ink);border-radius:14px;padding:8px;width:236px;max-width:100%;margin:10px auto 12px;box-sizing:border-box;line-height:0}
+#inviteQr{width:100%;height:auto;display:block;image-rendering:pixelated}
+.invitePlayersLabel{margin:8px 0 4px !important;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:11px !important}
+.invitePlayers{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 10px;min-height:1.6em}
+.invitePlayer{font-size:12px;font-weight:800;background:var(--hay);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.invitePlayer.host{background:#fff;color:var(--barn)}
 
 #loadingMenu { z-index: 100; background: var(--sky); }
 .spinner { width: 40px; height: 40px; border: 5px solid var(--ink); border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; margin-top: 15px;}
