@@ -10,6 +10,9 @@ wolves come out.
 ![stack](https://img.shields.io/badge/three.js-0.128-000)
 ![stack](https://img.shields.io/badge/multiplayer-zero--config-brightgreen)
 
+**Live:** <https://grasshopper-chi.vercel.app>  
+**Vercel project:** `electromobil/grasshopper` (Hobby, free Upstash Redis connected)
+
 ## Features
 
 - **First-person 3D world** — pointer-locked mouse look, WASD movement, sprinting.
@@ -101,6 +104,12 @@ one `npm start`/Docker container.
   Caddy example and hosting options.
 - **Vercel + Redis** still works if you prefer a permanent serverless URL, but
   it needs a free Upstash/Vercel Redis database. It is optional, not required.
+  The current deployment is `electromobil/grasshopper` on the Vercel Hobby plan
+  with the free Upstash Redis integration. Vercel Authentication is disabled so
+  the production URL is public. Deploy updates with:
+  ```bash
+  npx vercel --prod
+  ```
   See [docs/VERCEL_DEPLOY.md](docs/VERCEL_DEPLOY.md).
 
 The host's machine must stay awake while a room is open, and the host's browser
