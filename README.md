@@ -24,6 +24,9 @@ wolves come out.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
+- **Avatar picker and third-person view** — choose a character style and press <kbd>F3</kbd> to see
+  your avatar.
+- **Death and respawn screen** — collapse from damage or starvation, then respawn at the pasture.
 - **Private co-op rooms** — host a room and share a 6-character code, invite link or QR code; play
   together through WebRTC data channels. Vercel only handles the room/signaling API; gameplay
   traffic is peer-to-peer.
@@ -207,6 +210,8 @@ No paid service or payment method is required for this setup.
 | **Mouse** | Look and aim (click the canvas to lock the pointer) |
 | **Shift** | Sprint / faster fly |
 | **Space** | Jump (or climb while flying) |
+| **F3** | Toggle first-person / third-person avatar view |
+| **Enter / Space** | Respawn after collapsing |
 | **E** | Punch — or shoot when a gun is armed |
 | **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount (context-sensitive) |
 | **G** | Descend a tower floor (or mount a target while in admin) |

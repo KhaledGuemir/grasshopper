@@ -55,6 +55,17 @@ async function main() {
   log('opening host page');
   await host.goto(URL, { waitUntil: 'domcontentloaded' });
   await host.waitForSelector('#menu:not([hidden])', { timeout: 60000 });
+  await host.click('.genderBtn[data-gender="female"]');
+  const pickedGender = await host.evaluate(() => ({
+    pressed: document.querySelector('.genderBtn[data-gender="female"]')?.getAttribute('aria-pressed'),
+    stored: localStorage.getItem('grasshopperGender'),
+    deathMenu: !!document.getElementById('deathMenu'),
+  }));
+  log('avatar picker', JSON.stringify(pickedGender));
+  if (pickedGender.pressed !== 'true' || pickedGender.stored !== 'female') {
+    throw new Error('avatar picker did not persist the selection');
+  }
+  if (!pickedGender.deathMenu) throw new Error('respawn menu is missing');
   await host.fill('#mpName', 'HostTest');
   log('creating room');
   await Promise.all([
@@ -68,6 +79,19 @@ async function main() {
   const room = await host.evaluate(() => window.__GH_NET__.room);
   const hostChecksum = await host.evaluate(() => window.__GH_NET__.checksum);
   log('room', room, 'host checksum', hostChecksum);
+
+  log('checking third-person toggle');
+  await host.keyboard.press('F3');
+  await host.waitForFunction(() => window.__GH_NET__?.thirdPerson === true, null, { timeout: 10000 });
+  const third = await host.evaluate(() => ({
+    thirdPerson: window.__GH_NET__.thirdPerson,
+    avatarVisible: window.__GH_NET__.avatarVisible,
+    gender: window.__GH_NET__.gender,
+  }));
+  log('third person', JSON.stringify(third));
+  if (!third.avatarVisible || third.gender !== 'female') throw new Error('third-person avatar not visible');
+  await host.keyboard.press('F3');
+  await host.waitForFunction(() => window.__GH_NET__?.thirdPerson === false, null, { timeout: 10000 });
 
   log('checking invite link and QR');
   await host.keyboard.press('i');

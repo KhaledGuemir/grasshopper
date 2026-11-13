@@ -86,6 +86,22 @@ test('create, join, signal, heartbeat and status', async () => {
   assert.equal(afterInfo.playerCount, 1);
 });
 
+test('rejects a full room and an unknown room', async () => {
+  const created = await createRoom(req('/api/rooms', { method: 'POST', body: { name: 'SoloHost', maxPlayers: 1 } }));
+  assert.equal(created.status, 200);
+  const host = await created.json();
+
+  const full = await joinRoom(
+    req('/api/rooms/join', { method: 'POST', body: { code: host.code, name: 'Extra' } })
+  );
+  assert.equal(full.status, 409);
+
+  const missing = await joinRoom(
+    req('/api/rooms/join', { method: 'POST', body: { code: 'ZZZZZZ', name: 'Nobody' } })
+  );
+  assert.equal(missing.status, 404);
+});
+
 test('rejects missing and malformed tokens', async () => {
   const missing = await sendSignal(req('/api/signal', { method: 'POST', body: { type: 'offer' } }));
   assert.equal(missing.status, 401);
