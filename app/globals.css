@@ -118,6 +118,8 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 /* Invite panel */
 #invitePanel{z-index:40}
 #netLost{z-index:60}
+#webglError{z-index:70}
+#webglError .card{text-align:center}
 #netLost .card{text-align:center}
 #netLost .mpRow{justify-content:center}
 .inviteCard{width:min(460px,100%);text-align:center}

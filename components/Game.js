@@ -537,6 +537,26 @@ export default function Game() {
         </div>
       </div>
 
+      <div className="wrap" id="webglError" hidden>
+        <div className="card">
+          <h1>3D graphics unavailable</h1>
+          <p id="webglErrorMsg">
+            This browser could not create a WebGL context. The game needs WebGL to render its
+            world.
+          </p>
+          <p className="mpNote">
+            Try enabling hardware acceleration in the browser settings, updating the browser or
+            graphics driver, closing other 3D tabs/games, or opening the page in Chrome, Edge or
+            Firefox. After changing a setting, reload this page.
+          </p>
+          <div className="mpRow">
+            <button className="btn mpBtn" id="webglRetry" type="button">
+              Reload
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="wrap" id="netLost" hidden>
         <div className="card">
           <h1>Connection lost</h1>
