@@ -344,7 +344,7 @@ export default function Game() {
           <p className="adminHint">
             Admin unlocked — everything is yours. Press <kbd>F2</kbd> or <kbd>P</kbd> to open this panel.
             Spawn any creature or item, grant every weapon and food, teleport to every biome, lift anything,
-            turn on god mode, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
+            turn on Never Die, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
             <kbd>4</kbd> to switch guns, <kbd>E</kbd> or right-click to fire. Flight: <kbd>V</kbd>, then look
             up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
             land at your crosshair. Tornadoes lift animals and will carry you to the top. Turn Lift Everything
@@ -365,7 +365,7 @@ export default function Game() {
               Fill Hunger
             </button>
             <button className="abtn" id="abGod" type="button">
-              God Mode: OFF
+              Never Die: OFF
             </button>
             <button className="abtn" id="abOneShot" type="button">
               One-Shot Kill: OFF

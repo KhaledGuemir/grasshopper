@@ -63,7 +63,7 @@
       <button class="abtn" id="abGuns" type="button">Refill Guns + Ammo</button>
       <button class="abtn" id="abHeal" type="button">Heal Hearts</button>
       <button class="abtn" id="abFeed" type="button">Fill Hunger</button>
-      <button class="abtn" id="abGod" type="button">God Mode: OFF</button>
+      <button class="abtn" id="abGod" type="button">Never Die: OFF</button>
       <button class="abtn" id="abInf" type="button">Infinite Ammo: OFF</button>
       <button class="abtn" id="abFly" type="button">Fly: OFF</button>
       <button class="abtn" id="abLift" type="button">Lift Everything: OFF</button>
@@ -4170,8 +4170,8 @@ function updateTornado(dt){
   on('abFeed',()=>{P.hunger=HUNGER_MAX;P.hungerWarn=false;updateHunger();adminMsg('Hunger refilled');});
   on('abGod',()=>{
     godMode=!godMode;const b=$('abGod');
-    b.textContent='God Mode: '+(godMode?'ON':'OFF');b.classList.toggle('on',godMode);
-    adminMsg('God mode '+(godMode?'ON':'OFF'));
+    b.textContent='Never Die: '+(godMode?'ON':'OFF');b.classList.toggle('on',godMode);
+    adminMsg('Never Die '+(godMode?'ON':'OFF'));
   });
   on('abInf',()=>{
     guns.infAmmo=!guns.infAmmo;const b=$('abInf');
