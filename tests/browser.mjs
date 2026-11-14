@@ -231,6 +231,62 @@ async function main() {
   if (hostState.remotes.length < 1) throw new Error('host has no remote player');
   if (clientState.remotes.length < 1) throw new Error('client has no host avatar');
 
+  /* world layout: a bridge beside each city river, and two cities per biome */
+  const world = await host.evaluate(() => window.__GH_NET__.world);
+  const clientWorld = await client.evaluate(() => window.__GH_NET__.world);
+  log('world layout', JSON.stringify({
+    bridges: world.bridges.length,
+    biomeCities: world.biomeCities.length,
+    villages: world.villages.length,
+  }));
+  if (JSON.stringify(world) !== JSON.stringify(clientWorld)) {
+    throw new Error('host and client generated different world layouts');
+  }
+  if (world.bridges.length !== 4) throw new Error(`expected 4 bridges, found ${world.bridges.length}`);
+  if (world.homeCities.length !== 6) throw new Error(`expected 6 home cities, found ${world.homeCities.length}`);
+  if (world.villages.length !== 12) throw new Error(`expected 12 cities, found ${world.villages.length}`);
+  const segDist = (pts, x, z) => {
+    let best = Infinity;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const [ax, az] = pts[i];
+      const [bx, bz] = pts[i + 1];
+      const dx = bx - ax;
+      const dz = bz - az;
+      const l2 = dx * dx + dz * dz || 1;
+      let t = ((x - ax) * dx + (z - az) * dz) / l2;
+      t = Math.max(0, Math.min(1, t));
+      best = Math.min(best, Math.hypot(x - (ax + dx * t), z - (az + dz * t)));
+    }
+    return best;
+  };
+  for (const b of world.bridges) {
+    const hit = world.rivers
+      .map((river) => ({ river, d: segDist(river.pts, b.x, b.z) }))
+      .sort((a, c) => a.d - c.d)[0];
+    if (hit.d > hit.river.w / 2 + 2) {
+      throw new Error(`bridge at ${b.x},${b.z} is not on a river (${hit.d.toFixed(1)})`);
+    }
+    if (b.len < hit.river.w + 10) throw new Error('bridge is too short for its river');
+    const city = world.homeCities
+      .map((c) => ({ c, d: Math.hypot(c.x - b.x, c.z - b.z) }))
+      .sort((a, c) => a.d - c.d)[0];
+    if (city.d > 350) {
+      throw new Error(`bridge at ${b.x},${b.z} is ${city.d.toFixed(1)} from the nearest city`);
+    }
+  }
+  for (const name of ['desert', 'snow', 'savanna']) {
+    const B = world.biomes[name];
+    const cities = world.biomeCities.filter((c) => c.biome === name);
+    if (cities.length !== 2) throw new Error(`expected 2 ${name} cities, found ${cities.length}`);
+    for (const c of cities) {
+      if (Math.hypot(c.x - B.x, c.z - B.z) > B.r - 60) {
+        throw new Error(`${name} city at ${c.x},${c.z} is outside its island`);
+      }
+    }
+    const villages = world.villages.filter((v) => v.biome === name);
+    if (villages.length !== 2) throw new Error(`expected 2 ${name} towns, found ${villages.length}`);
+  }
+
   /* each player's chosen gender must be what the other device sees */
   const hostSeesGuest = hostState.remotes[0];
   const guestSeesHost = clientState.remotes[0];
