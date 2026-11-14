@@ -14,6 +14,9 @@ long-lived game server
 - [x] WebRTC host/client transport with `ctrl` and `state` data channels.
 - [x] Lobby UI, room codes, session persistence, auto-connect after reload.
 - [x] Remote player avatars, input relay, host simulation, player snapshots.
+- [x] Each player's chosen gender and avatar materials are visible to every device.
+- [x] Remote walk/jump/carry/ride animation, driven by host snapshot speed and pose state.
+- [x] Host-authoritative day/night time shared in snapshots.
 - [x] Entity IDs and host snapshots for cows, bulls, hoppers, pets, people, props, meat, chests.
 - [x] Client-side punch/shoot commands with host range validation and death replication.
 - [x] Room code, invite link, QR code and invite-link auto-fill.
@@ -379,9 +382,11 @@ for v1. Each peer only reads its own mailbox.
 
 **Remote avatar**
 
-- Reuse the person body proportions or a simple humanoid builder.
+- Build remote players with the same avatar factory as the local player, using the gender they
+  selected on the start menu, with independent materials per player.
 - Name tag as a `THREE.Sprite` with a canvas texture.
-- Walk animation driven by speed; later add held/ride poses.
+- Walk animation driven by snapshot speed, plus jump, carry, ride and punch poses from shared
+  player state (gender, swimming, held, riding, punch timer).
 
 **Acceptance:** two browsers join the same code through a Vercel Preview, see each other move, chat,
 and leave cleanly. Works on a normal home NAT with STUN; restrictive NATs fail and are reported.
@@ -446,8 +451,8 @@ This is the bulk of the work.
   - `NET.role === 'client'`: skip `updateCow`, `updateBull`, `updatePet`, `updatePerson`,
     `updateTornado`, `updateFish`, `updateBee`, `updateBird`, `updateAnt`, spawn timers,
     `despawnFarWildlife`, `overpopulationCull`, and weather timers.
-  - Split `updateSky(dt)` into `advanceSky(dt)` (host only) and `applySky(dayT)` (both), so a client
-    does not double-advance the clock.
+  - Clients keep advancing `updateSky(dt)` locally for smoothness and snap `dayT` to the host value
+    from every snapshot, so devices cannot drift apart.
   - Render the static world from the seeded generator; never run local world spawns.
   - Create missing entities, update transforms, remove entities missing for N snapshots.
   - Interpolate remote players and NPCs; snap on teleport/respawn.

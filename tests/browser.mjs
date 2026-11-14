@@ -134,6 +134,18 @@ async function main() {
   await client.waitForSelector('#menu:not([hidden])', { timeout: 60000 });
   await client.waitForSelector('#mpName', { state: 'visible', timeout: 60000 });
   await client.bringToFront();
+  /* give the guest a different avatar so gender sync can be verified */
+  await client.evaluate(() => document.querySelector('.genderBtn[data-gender="male"]')?.click());
+  await client.waitForTimeout(150);
+  const guestPicked = await client.evaluate(() => ({
+    pressed: document.querySelector('.genderBtn[data-gender="male"]')?.getAttribute('aria-pressed'),
+    stored: localStorage.getItem('grasshopperGender'),
+    gender: window.__GH_NET__?.gender,
+  }));
+  log('client avatar picker', JSON.stringify(guestPicked));
+  if (guestPicked.pressed !== 'true' || guestPicked.stored !== 'male' || guestPicked.gender !== 'male') {
+    throw new Error('client avatar picker did not persist the male selection');
+  }
   /* React controlled inputs: set the native value then dispatch input so the
    * component state updates. This avoids actionability flakiness in a second
    * software-rendered WebGL tab. */
@@ -219,21 +231,59 @@ async function main() {
   if (hostState.remotes.length < 1) throw new Error('host has no remote player');
   if (clientState.remotes.length < 1) throw new Error('client has no host avatar');
 
+  /* each player's chosen gender must be what the other device sees */
+  const hostSeesGuest = hostState.remotes[0];
+  const guestSeesHost = clientState.remotes[0];
+  log('gender sync host sees', JSON.stringify(hostSeesGuest), 'client sees', JSON.stringify(guestSeesHost));
+  if (hostSeesGuest.g !== 'male' || hostSeesGuest.avatarGender !== 'male') {
+    throw new Error(`host does not see the guest as male: ${JSON.stringify(hostSeesGuest)}`);
+  }
+  if (guestSeesHost.g !== 'female' || guestSeesHost.avatarGender !== 'female') {
+    throw new Error(`client does not see the host as female: ${JSON.stringify(guestSeesHost)}`);
+  }
+
+  /* the host owns the day/night clock */
+  const firstDay = await Promise.all([
+    host.evaluate(() => window.__GH_NET__.dayT),
+    client.evaluate(() => window.__GH_NET__.dayT),
+  ]);
+  await host.waitForTimeout(1500);
+  const secondDay = await Promise.all([
+    host.evaluate(() => window.__GH_NET__.dayT),
+    client.evaluate(() => window.__GH_NET__.dayT),
+  ]);
+  const dayDiff = [Math.abs(firstDay[0] - firstDay[1]), Math.abs(secondDay[0] - secondDay[1])];
+  log('day sync', JSON.stringify({ host: secondDay[0], client: secondDay[1], diff: dayDiff }));
+  if (dayDiff[0] > 0.02 || dayDiff[1] > 0.02) throw new Error(`day/night is out of sync: ${JSON.stringify(dayDiff)}`);
+
   const before = hostState.remotes[0];
   /* Simulate input through the same client→host path the keyboard uses. The
    * client tab may be backgrounded in headless Chrome, so its rAF loop cannot
    * be relied on to pump input; the host is kept visible to apply it. */
   await host.bringToFront();
-  for (let i = 0; i < 6; i++) {
+  let animSample = null;
+  let poseAmp = 0;
+  for (let i = 0; i < 30; i++) {
     await client.evaluate(() => window.__GH_NET__.sendInput(0, 1));
-    await host.waitForTimeout(180);
+    await host.waitForTimeout(150);
+    const r = await host.evaluate(() => window.__GH_NET__.remotes[0]);
+    poseAmp = Math.max(poseAmp, Math.abs(r.legX || 0), Math.abs(r.armX || 0));
+    if (r.netSpeed > 1 && poseAmp > 0.01 && r.walkT > before.walkT + 0.1) {
+      animSample = r;
+      break;
+    }
   }
   await client.evaluate(() => window.__GH_NET__.sendInput(0, 0));
-  await host.waitForTimeout(500);
+  await host.waitForTimeout(700);
 
   const after = await host.evaluate(() => window.__GH_NET__.remotes[0]);
   const moved = Math.hypot(after.x - before.x, after.z - before.z);
   log('remote moved', moved.toFixed(3), before, after);
+  log('remote animation', JSON.stringify({ animSample, poseAmp }));
+  if (!animSample || animSample.netSpeed < 1 || animSample.walkT < before.walkT + 0.1) {
+    throw new Error(`host did not animate the moving remote player: ${JSON.stringify(animSample)}`);
+  }
+  if (poseAmp < 0.01) throw new Error('remote avatar limbs never moved');
   if (moved < 0.2) {
     const cdiag = await client.evaluate(() => ({
       keys: window.__GH_NET__?.keys,
@@ -246,6 +296,44 @@ async function main() {
     }));
     log('movement diag', JSON.stringify(cdiag));
     throw new Error('host did not observe client movement');
+  }
+
+  /* the reverse direction: the host's avatar must animate on the client too */
+  const guestBeforeMove = await client.evaluate(() => window.__GH_NET__.remotes[0]);
+  await host.bringToFront();
+  const hostStart = await host.evaluate(() => window.__GH_NET__.player);
+  await host.keyboard.down('w');
+  await host.waitForTimeout(1200);
+  /* Keep the host key held while the client comes forward: the last snapshot
+   * the client polls still describes a moving host. */
+  await client.bringToFront();
+  let guestAnim = null;
+  let guestPoseAmp = 0;
+  for (let i = 0; i < 16; i++) {
+    await client.waitForTimeout(250);
+    const current = await client.evaluate(() => window.__GH_NET__.remotes[0]);
+    guestAnim = current;
+    if (current && current.netSpeed > 0.2) {
+      const ticked = await client.evaluate(() => {
+        let rows = [];
+        for (let j = 0; j < 8; j++) rows = window.__GH_NET__.tickRemotes(0.05);
+        return { rows, remote: window.__GH_NET__.remotes[0] };
+      });
+      guestAnim = ticked.remote;
+      for (const row of ticked.rows) {
+        guestPoseAmp = Math.max(guestPoseAmp, Math.abs(row.legX || 0), Math.abs(row.armX || 0));
+      }
+      break;
+    }
+  }
+  await host.bringToFront();
+  await host.keyboard.up('w');
+  const hostEnd = await host.evaluate(() => window.__GH_NET__.player);
+  const hostWalked = Math.hypot(hostEnd.x - hostStart.x, hostEnd.z - hostStart.z);
+  log('host->guest animation', JSON.stringify({ hostWalked, guestBeforeMove, guestAnim, guestPoseAmp }));
+  if (hostWalked < 0.2) throw new Error('host did not move for the animation test');
+  if (!guestAnim || guestPoseAmp < 0.01 || guestAnim.walkT < guestBeforeMove.walkT + 0.1) {
+    throw new Error(`client did not animate the host avatar: ${JSON.stringify(guestAnim)}`);
   }
 
   log('reloading client to test rejoin');
