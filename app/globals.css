@@ -107,6 +107,7 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 
 /* Multiplayer panel inside the start menu */
 .mpPanel{border-top:3px dashed rgba(36,51,28,.35);border-bottom:3px dashed rgba(36,51,28,.35);padding:14px 0 6px;margin:4px 0 18px}
+#menu .card>.mpPanel:first-child{border-top:0;padding-top:0;margin-top:0}
 .mpPanel h2{font-family:var(--display);font-weight:400;font-size:26px;line-height:1;margin:0 0 8px;color:var(--barn)}
 .mpNote{font-size:13px !important;line-height:1.4 !important;margin:0 0 10px !important;opacity:.85}
 .mpRow{display:flex;gap:8px;margin:0 0 8px;flex-wrap:wrap}

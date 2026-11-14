@@ -193,41 +193,8 @@ export default function Game() {
 
       <div className="wrap" id="menu" hidden>
         <div className="card">
-          <h1>Grasshopper Pasture</h1>
-          <p>
-            Walk the pasture in first person, lift animals (sheep, chickens, bunnies, and more!), explore the
-            sprawling cities with modern wind turbines, ride horses, camels and bulls. Every house has an open
-            door — walk right in, and the downtown skyscrapers are open too: step into the lobby and take the
-            lift (<kbd>F</kbd> up, <kbd>G</kbd> down) to any of their many floors. Follow the beach west to the
-            sun-baked desert island, home to camels you can ride and striking cobras — while slender green snakes
-            slither through the home pasture — south to the golden savanna, where lions and tigers prowl,
-            elephants and zebras roam, meerkats keep watch and locusts leap and buzz, or north to the frozen
-            snowfield island where penguins waddle and polar bears prowl. Watch your ten hearts: a bull&apos;s
-            charge costs 7, a tiger&apos;s bite 5, a bear&apos;s or polar bear&apos;s maul 5, a lion&apos;s swipe
-            4, a wolf&apos;s bite 3, a cobra&apos;s strike 2, a snake&apos;s bite 1. Grasshoppers are ant-sized
-            now, and bears sleep by day — bears and gray wolves only come out at night. Log every kind of
-            creature in your field notes.
-          </p>
-          <p>
-            <b>Hunting:</b> your fist is always ready — punch any animal you meet: cows, sheep and chickens, but
-            also deer, camels, bears, wolves, lions, tigers, elephants, zebras, cobras and snakes. Press{' '}
-            <kbd>E</kbd> (or right click), then walk to the dropped meat and press <kbd>F</kbd> to eat it and
-            refill your hunger. The bull is a 100 HP tank — bring a gun or a sword. Your ten-point hunger bar
-            drains as the day goes by: when it hits zero you start losing hearts, and when your hearts run out
-            you collapse.
-          </p>
-          <p>
-            <b>Loot chests:</b> wooden chests are hidden inside the villages — search around the houses and
-            skyscrapers, walk up and press <kbd>F</kbd> to open one. They hold food, swords, guns, and sometimes
-            a rare <b>AK-47</b>.
-          </p>
           <div className="mpPanel" hidden={process.env.NEXT_PUBLIC_MULTIPLAYER === '0'}>
             <h2>Play with friends</h2>
-            <p className="mpNote">
-              Host a private co-op room, share the 6-character code, and your friends join the same
-              pasture. No account or API key is needed. The host&apos;s browser runs the world; if a
-              direct WebRTC connection is blocked, the app falls back to its own relay automatically.
-            </p>
             <div className="mpRow">
               <input
                 id="mpName"
@@ -274,36 +241,6 @@ export default function Game() {
             ) : null}
           </div>
 
-          <dl className="keys">
-            <dt>Move</dt>
-            <dd>
-              <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>, <kbd>Shift</kbd> to run
-            </dd>
-            <dt>Jump</dt>
-            <dd>
-              <kbd>Space</kbd>
-            </dd>
-            <dt>Look</dt>
-            <dd>Move mouse (click to lock) or drag screen</dd>
-            <dt>View</dt>
-            <dd>
-              <kbd>F3</kbd> switch between first person and seeing your avatar
-            </dd>
-            <dt>Action</dt>
-            <dd>
-              <kbd>F</kbd> or click to Lift/Feed/Ride/Eat
-            </dd>
-            <dt>Punch</dt>
-            <dd>
-              <kbd>E</kbd> or right click to hit any animal — cow, sheep, chicken, deer, bear, wolf, lion, tiger,
-              cobra, snake…
-            </dd>
-            <dt>Guns</dt>
-            <dd>
-              Once found: <kbd>1</kbd>–<kbd>4</kbd> switch weapons, <kbd>E</kbd> or right-click to fire (hold for
-              AK-47 full-auto)
-            </dd>
-          </dl>
           <div className="genderPick">
             <div className="genderQ" id="genderQ">
               What&apos;s your gender?
