@@ -288,8 +288,23 @@ async function main() {
   }
 
   /* each player's chosen gender must be what the other device sees */
-  const hostSeesGuest = hostState.remotes[0];
-  const guestSeesHost = clientState.remotes[0];
+  await host.bringToFront();
+  await host.waitForFunction(
+    () => window.__GH_NET__?.remotes[0]?.g === 'male' &&
+      window.__GH_NET__.remotes[0]?.avatarGender === 'male',
+    null,
+    { timeout: 20000 }
+  );
+  await client.bringToFront();
+  await client.waitForFunction(
+    () => window.__GH_NET__?.remotes[0]?.g === 'female' &&
+      window.__GH_NET__.remotes[0]?.avatarGender === 'female',
+    null,
+    { timeout: 20000 }
+  );
+  await host.bringToFront();
+  const hostSeesGuest = await host.evaluate(() => window.__GH_NET__.remotes[0]);
+  const guestSeesHost = await client.evaluate(() => window.__GH_NET__.remotes[0]);
   log('gender sync host sees', JSON.stringify(hostSeesGuest), 'client sees', JSON.stringify(guestSeesHost));
   if (hostSeesGuest.g !== 'male' || hostSeesGuest.avatarGender !== 'male') {
     throw new Error(`host does not see the guest as male: ${JSON.stringify(hostSeesGuest)}`);
@@ -394,13 +409,46 @@ async function main() {
 
   log('reloading client to test rejoin');
   await client.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
+  /* Give the host a moment to process the rejoin/relay hello, then bring the
+   * client forward so its throttled background poll timer actually runs. */
   await host.bringToFront();
-  await client.waitForSelector('#hud:not([hidden])', { timeout: 60000 });
+  await host.waitForTimeout(2000);
+  await client.bringToFront();
+  try {
+    await client.waitForFunction(() => {
+      const hud = document.getElementById('hud');
+      return !!hud && !hud.hidden;
+    }, null, { timeout: 60000 });
+  } catch (err) {
+    const diag = await client.evaluate(() => ({
+      hud: !document.getElementById('hud').hidden,
+      state: window.__GH_NET__?.state,
+      welcome: window.__GH_NET__?.welcome,
+      counters: window.__GH_NET__?.counters,
+      netLost: !document.getElementById('netLost').hidden,
+      netLostMsg: document.getElementById('netLostMsg')?.textContent,
+      debug: window.__GH_NET__?.debug,
+      recent: window.__GH_NET__?.recent,
+      self: window.__GH_NET__?.self,
+      hostPeer: window.__GH_NET__?.hostPeer,
+      connected: window.__GH_NET__?.connected,
+    }));
+    const hdiag = await host.evaluate(() => ({
+      remotes: window.__GH_NET__?.remoteCount,
+      debug: window.__GH_NET__?.debug,
+      counters: window.__GH_NET__?.counters,
+      recent: window.__GH_NET__?.recent,
+    }));
+    log('rejoin timeout client', JSON.stringify(diag));
+    log('rejoin timeout host', JSON.stringify(hdiag));
+    throw err;
+  }
   await waitForNet(
     client,
     () => window.__GH_NET__?.connected === true && window.__GH_NET__.remoteCount >= 1,
     45000
   );
+  await host.bringToFront();
   await waitForNet(host, () => window.__GH_NET__?.remoteCount >= 1, 30000);
   log('client rejoined');
 
