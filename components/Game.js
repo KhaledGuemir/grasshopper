@@ -184,9 +184,7 @@ export default function Game() {
       </div>
 
       <div className="wrap" id="loadingMenu">
-        <div className="card" style={{ textAlign: 'center' }}>
-          <h1>Loading World...</h1>
-          <p>Generating terrain, cities, and wildlife.</p>
+        <div className="card" style={{ textAlign: 'center' }} role="status" aria-label="Loading world">
           <span className="spinner" />
         </div>
       </div>
