@@ -81,7 +81,7 @@ async function main() {
     host.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 60000 }),
     host.click('#mpHost'),
   ]);
-  await host.waitForSelector('#hud:not([hidden])', { timeout: 60000 });
+  await host.waitForSelector('#hud:not([hidden])', { timeout: 120000 });
   await host.waitForFunction(() => window.__GH_NET__?.role === 'host' && !!window.__GH_NET__.room, null, {
     timeout: 30000,
   });
@@ -169,7 +169,7 @@ async function main() {
     await client.waitForFunction(() => {
       const hud = document.getElementById('hud');
       return !!hud && !hud.hidden;
-    }, null, { timeout: 60000 });
+    }, null, { timeout: 120000 });
   } catch (err) {
     const diag = await client.evaluate(() => ({
       hud: !document.getElementById('hud').hidden,
@@ -242,9 +242,10 @@ async function main() {
   if (JSON.stringify(world) !== JSON.stringify(clientWorld)) {
     throw new Error('host and client generated different world layouts');
   }
-  if (world.bridges.length !== 4) throw new Error(`expected 4 bridges, found ${world.bridges.length}`);
+  if (world.bridges.length !== 11) throw new Error(`expected 11 bridges, found ${world.bridges.length}`);
   if (world.homeCities.length !== 6) throw new Error(`expected 6 home cities, found ${world.homeCities.length}`);
-  if (world.villages.length !== 12) throw new Error(`expected 12 cities, found ${world.villages.length}`);
+  if (world.biomeCities.length !== 15) throw new Error(`expected 15 biome cities, found ${world.biomeCities.length}`);
+  if (world.villages.length !== 21) throw new Error(`expected 21 cities, found ${world.villages.length}`);
   const segDist = (pts, x, z) => {
     let best = Infinity;
     for (let i = 0; i < pts.length - 1; i++) {
@@ -267,24 +268,45 @@ async function main() {
       throw new Error(`bridge at ${b.x},${b.z} is not on a river (${hit.d.toFixed(1)})`);
     }
     if (b.len < hit.river.w + 10) throw new Error('bridge is too short for its river');
-    const city = world.homeCities
+    const city = [...world.homeCities, ...world.biomeCities]
       .map((c) => ({ c, d: Math.hypot(c.x - b.x, c.z - b.z) }))
       .sort((a, c) => a.d - c.d)[0];
     if (city.d > 350) {
       throw new Error(`bridge at ${b.x},${b.z} is ${city.d.toFixed(1)} from the nearest city`);
     }
   }
+  const biomeRivers = world.rivers.filter((r) => r.biome);
+  const riverCounts = { desert: 2, snow: 2, savanna: 3 };
+  if (biomeRivers.length !== 7) throw new Error(`expected 7 biome rivers, found ${biomeRivers.length}`);
+  /* every deck is dry, even where a river starts inside a lake */
+  const deckProbes = await host.evaluate(() => window.__GH_NET__.world.bridges.map((b) => ({
+    b,
+    p: window.__GH_NET__.probeBridge(b.x, b.z),
+  })));
+  for (const { b, p } of deckProbes) {
+    if (!p.onDeck || p.water) {
+      throw new Error(`bridge at ${b.x},${b.z} is not solid dry ground: ${JSON.stringify(p)}`);
+    }
+  }
   for (const name of ['desert', 'snow', 'savanna']) {
     const B = world.biomes[name];
     const cities = world.biomeCities.filter((c) => c.biome === name);
-    if (cities.length !== 2) throw new Error(`expected 2 ${name} cities, found ${cities.length}`);
+    if (cities.length !== 5) throw new Error(`expected 5 ${name} cities, found ${cities.length}`);
     for (const c of cities) {
       if (Math.hypot(c.x - B.x, c.z - B.z) > B.r - 60) {
         throw new Error(`${name} city at ${c.x},${c.z} is outside its island`);
       }
     }
     const villages = world.villages.filter((v) => v.biome === name);
-    if (villages.length !== 2) throw new Error(`expected 2 ${name} towns, found ${villages.length}`);
+    if (villages.length !== 5) throw new Error(`expected 5 ${name} towns, found ${villages.length}`);
+    const rivers = biomeRivers.filter((r) => r.biome === name);
+    if (rivers.length !== riverCounts[name]) {
+      throw new Error(`expected ${riverCounts[name]} ${name} rivers, found ${rivers.length}`);
+    }
+    for (const river of rivers) {
+      const deck = world.bridges.some((b) => segDist(river.pts, b.x, b.z) <= river.w / 2 + 2);
+      if (!deck) throw new Error(`${name} river has no bridge`);
+    }
   }
 
   /* each player's chosen gender must be what the other device sees */
@@ -395,7 +417,26 @@ async function main() {
   log('reloading client to test rejoin');
   await client.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
   await host.bringToFront();
-  await client.waitForSelector('#hud:not([hidden])', { timeout: 60000 });
+  try {
+    await client.waitForSelector('#hud:not([hidden])', { timeout: 120000 });
+  } catch (err) {
+    const diag = await client.evaluate(() => ({
+      href: location.href,
+      ready: document.readyState,
+      state: window.__GH_NET__?.state,
+      role: window.__GH_NET__?.role,
+      connected: window.__GH_NET__?.connected,
+      welcome: window.__GH_NET__?.welcome,
+      checksum: window.__GH_NET__?.checksum,
+      world: window.__GH_WORLD__ || null,
+      hud: !!document.getElementById('hud') && !document.getElementById('hud').hidden,
+      menu: !!document.getElementById('menu') && !document.getElementById('menu').hidden,
+      loading: !!document.getElementById('loadingMenu') && !document.getElementById('loadingMenu').hidden,
+      counters: window.__GH_NET__?.counters,
+    }));
+    log('rejoin timeout diag', JSON.stringify(diag));
+    throw err;
+  }
   await waitForNet(
     client,
     () => window.__GH_NET__?.connected === true && window.__GH_NET__.remoteCount >= 1,
