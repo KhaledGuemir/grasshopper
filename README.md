@@ -26,11 +26,17 @@ wolves come out.
 - **Weapons** — pistol, shotgun, rifle, AK-47, and the rare chest-only Big Game
   Rifle (35 damage per shot).
 - **Living towns and wilds** — villagers swat ants, grasshoppers, bees and
-  butterflies; hunters carry rifles and bring down game animals. Bulls and bears
-  are far tougher than any human.
+  butterflies; hunters carry rifles and bring down game animals. A hunter needs
+  two clean shots to drop a bear or a bull, then walks over to carry and eat the
+  meat. Punch a hunter and he turns on you, chasing and firing back.
+- **Colourful bugs** — grasshoppers come in green, brown, orange, yellow and the
+  occasional pink; desert locusts share the same body with long swept-back wings
+  and lean yellow, orange, brown, green or, rarely, pink.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
+- **Clean play view** — the top stat row is hidden so only the world, hearts and
+  dialogue toasts share the screen.
 - **Avatar picker and third-person view** — press <kbd>F3</kbd> to see your avatar.
 - **Death and respawn screen** — collapse from damage or starvation, then respawn.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
@@ -176,7 +182,7 @@ No paid service or payment method is required for the default setup.
 | **Space** | Jump (or climb while flying) |
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
-| **E** | Punch — or shoot when a gun is armed |
+| **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him) |
 | **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 5** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle) |
