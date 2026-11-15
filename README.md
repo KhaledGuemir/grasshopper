@@ -36,8 +36,9 @@ wolves come out.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
-- **Clean play view** — the top stat row is hidden. Gameplay notes sit low; only
-  face-to-face NPC dialogue uses the top of the screen.
+- **Clean play view** — hearts, hunger and the rest of the HUD sit in the top
+  row; gameplay notes sit low, and only face-to-face NPC dialogue uses the top
+  toast slot.
 - **Avatar picker and third-person view** — press <kbd>F3</kbd> to see your avatar.
 - **Death and respawn screen** — collapse from damage or starvation, then respawn.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
