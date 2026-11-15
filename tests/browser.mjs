@@ -130,6 +130,8 @@ async function main() {
   });
 
   log('opening client page');
+  /* background tabs are throttled; wake the client before waiting for its menu */
+  await client.bringToFront();
   await client.goto(URL, { waitUntil: 'domcontentloaded' });
   await client.waitForSelector('#menu:not([hidden])', { timeout: 60000 });
   await client.waitForSelector('#mpName', { state: 'visible', timeout: 60000 });

@@ -16,7 +16,8 @@ wolves come out.
 ## Features
 
 - **First-person 3D world** — pointer-locked mouse look, WASD movement, sprinting.
-- **Lift & carry** — grab creatures and haul them around (progress toward all 13).
+- **Lift & carry** — grab creatures and haul them around. Small pickups rest in
+  your hand instead of floating in front of the camera (progress toward all 13).
 - **Mount & ride** the beasts, and travel tower floors.
 - **Day / night cycle** (a full day ≈ 300s) with night wolves.
 - **Survival** — 10 hearts, a hunger meter that drains over time, and dropped
@@ -35,8 +36,8 @@ wolves come out.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
-- **Clean play view** — the top stat row is hidden so only the world, hearts and
-  dialogue toasts share the screen.
+- **Clean play view** — the top stat row is hidden. Gameplay notes sit low; only
+  face-to-face NPC dialogue uses the top of the screen.
 - **Avatar picker and third-person view** — press <kbd>F3</kbd> to see your avatar.
 - **Death and respawn screen** — collapse from damage or starvation, then respawn.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
@@ -183,7 +184,7 @@ No paid service or payment method is required for the default setup.
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
 | **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him) |
-| **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount |
+| **F** | Interact: lift & carry, mount, feed, eat dropped meat even with a gun drawn, open a chest, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 5** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle) |
 | **P** | Open the admin panel |

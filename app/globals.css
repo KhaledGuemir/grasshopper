@@ -72,6 +72,9 @@ img{max-width:100%}
 #mobfill{display:block;height:100%;width:100%;background:#4f9a34;border-radius:3px;transition:width .12s linear,background .2s}
 #toast{position:absolute;left:50%;top:calc(76px + env(safe-area-inset-top,0px));transform:translate(-50%,-8px);background:var(--ink);color:var(--paper);font-family:var(--display);font-size:20px;padding:8px 18px;border-radius:12px;opacity:0;transition:opacity .25s,transform .25s;white-space:nowrap;max-width:calc(100% - 32px);overflow:hidden;text-overflow:ellipsis}
 #toast.on{opacity:1;transform:translate(-50%,0)}
+#toast.low{top:auto;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px)}
+#toast.low.on{transform:translate(-50%,0)}
+body.touch #toast.low{bottom:calc(214px + env(safe-area-inset-bottom,0px))}
 #prompt{position:absolute;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 32px)}
 #prompt span{background:var(--hay);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);border-radius:12px;padding:6px 14px;font-weight:800;font-size:15px;white-space:nowrap; transition: transform 0.1s;}
 #prompt span:active{transform: translateY(4px); box-shadow: 0 0px 0 var(--ink);}
