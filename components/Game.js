@@ -142,7 +142,7 @@ export default function Game() {
           <div
             className="pill stat"
             id="ammoPill"
-            title="Weapon ammo — 1 pistol, 2 shotgun, 3 rifle, 4 AK-47"
+            title="Weapon ammo — 1 pistol, 2 shotgun, 3 rifle, 4 AK-47, 5 Big Game Rifle"
             hidden
           >
             <span className="k" id="gunName">Pistol</span>
@@ -281,7 +281,7 @@ export default function Game() {
             Admin unlocked — everything is yours. Press <kbd>F2</kbd> or <kbd>P</kbd> to open this panel.
             Spawn any creature or item, grant every weapon and food, teleport to every biome, lift anything,
             turn on Never Die, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
-            <kbd>4</kbd> to switch guns, <kbd>E</kbd> or right-click to fire. Flight: <kbd>V</kbd>, then look
+            <kbd>4</kbd> <kbd>5</kbd> to switch guns, <kbd>E</kbd> or right-click to fire. Flight: <kbd>V</kbd>, then look
             up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
             land at your crosshair. Tornadoes lift animals and will carry you to the top. Turn Lift Everything
             off to open chests or eat meat.
@@ -375,11 +375,13 @@ export default function Game() {
               <option value="hopper">Grasshopper</option>
               <option value="fish">Fish</option>
               <option value="bee">Bee</option>
+              <option value="butterfly">Butterfly</option>
               <option value="bird">Bird</option>
               <option value="ant">Ant</option>
               <option value="human">Human</option>
               <option value="farmer">Farmer</option>
               <option value="traveler">Traveler</option>
+              <option value="hunter">Hunter</option>
               <option value="bale">Hay Bale</option>
               <option value="rock">Rock</option>
               <option value="barrel">Barrel</option>
@@ -390,6 +392,7 @@ export default function Game() {
               <option value="shotgun">Shotgun</option>
               <option value="rifle">Rifle</option>
               <option value="ak47">AK-47</option>
+              <option value="biggame">Big Game Rifle</option>
             </select>
             <button className="abtn" id="abSpawn" type="button">
               Spawn it

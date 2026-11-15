@@ -23,7 +23,11 @@ wolves come out.
   meat you can eat to refill it.
 - **Loot chests** scattered across the map.
 - **Cities & islands** to explore.
-- **Weapons** — pistol, shotgun, rifle, and AK-47.
+- **Weapons** — pistol, shotgun, rifle, AK-47, and the rare chest-only Big Game
+  Rifle (35 damage per shot).
+- **Living towns and wilds** — villagers swat ants, grasshoppers, bees and
+  butterflies; hunters carry rifles and bring down game animals. Bulls and bears
+  are far tougher than any human.
 - **Admin & cheat console** for powers and fun.
 - **Mobile touch controls** — virtual stick plus LIFT / JUMP / PUNCH buttons.
 - **Distance-based culling** so large scenes stay smooth.
@@ -175,7 +179,7 @@ No paid service or payment method is required for the default setup.
 | **E** | Punch — or shoot when a gun is armed |
 | **F** | Interact: lift & carry, mount, feed, eat dropped meat, open a chest, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
-| **1 – 4** | Select weapon (pistol / shotgun / rifle / AK-47) |
+| **1 – 5** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle) |
 | **P** | Open the admin panel |
 | **V** | Toggle fly mode |
 | **I** | Open the multiplayer invite panel (code, link, QR) |
