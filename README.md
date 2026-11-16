@@ -17,15 +17,24 @@ wolves come out.
 
 - **First-person 3D world** — pointer-locked mouse look, WASD movement, sprinting.
 - **Lift & carry** — grab creatures and haul them around. Small pickups rest in
-  your hand instead of floating in front of the camera (progress toward all 13).
+  your hand instead of floating in front of the camera (progress toward all 27).
 - **Mount & ride** the beasts, and travel tower floors.
 - **Day / night cycle** (a full day ≈ 300s) with night wolves.
-- **Survival** — 10 hearts, a hunger meter that drains over time, and dropped
-  meat you can eat to refill it.
-- **Loot chests** scattered across the map.
+- **Survival** — 10 hearts with a health bar, a hunger bar that drains over time,
+  dropped meat, and wild fruit (apples, blueberries, strawberries, berries and
+  blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes HP.
+- **HUD & minimap** — health and hunger fills, an 8-point compass
+  (N/NE/E/SE/S/SW/W/NW) and a live local map that reveals dungeon lairs as you
+  approach and marks the relic portal.
+- **Loot chests** scattered across the map, plus biome armories and boss-sealed
+  vaults with endgame gear.
 - **Cities & islands** to explore.
-- **Weapons** — pistol, shotgun, rifle, AK-47, and the rare chest-only Big Game
-  Rifle (35 damage per shot).
+- **Weapons** — pistol, shotgun, rifle, AK-47, Big Game Rifle, Frostbite Rifle,
+  Sandstorm LMG and the rocket-firing Pni's Bane RPG (700 damage).
+- **30 swords and armor tiers** — swap between every blade you own with
+  <kbd>Q</kbd>; armor reduces incoming damage from bosses and beasts.
+- **Three bosses and a real ending** — Raoar the Frost Warden, Lala the Dune
+  Sovereign and Pni, the 2000 HP final boss in a sky-parkour realm.
 - **Living towns and wilds** — villagers swat ants, grasshoppers, bees and
   butterflies; hunters carry rifles and bring down game animals. A hunter needs
   two clean shots to drop a bear or a bull, then walks over to carry and eat the
@@ -44,6 +53,31 @@ wolves come out.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
   QR code, and play with up to 5 friends (6 players total). No account, API key, Redis or TURN
   service is required.
+
+## Endgame
+
+The snowfield and desert each hide a boss lair at the centre of the biome. The
+progression is deliberately ordered:
+
+1. **Raoar — Frost Warden (1005 HP, snowfield).** Open the armory chest by the
+   lair entrance for **Frostguard Armor** (50% damage reduction) and the
+   **Frostbite Rifle**. Defeat Raoar, then loot the vault behind him for
+   **Raoar's Warden Plate** (62%) and the **Winter's End** sword.
+2. **Lala — Dune Sovereign (1000 HP, desert).** The desert armory holds the
+   **Sunforged Aegis** (70%) and **Sandstorm LMG**. Lala's vault unlocks after
+   her defeat with **Pni's Skyguard** (78%), **Pharaoh's Wrath** and
+   **Pni's Bane**, a 700-damage RPG with five rockets.
+3. **The relic portal.** Each fallen warden drops a gold relic. With both relics,
+   the sealed portal near spawn wakes up: press <kbd>F</kbd> once to open it and
+   again to step through.
+4. **Pni's sky path.** Cross the floating platform course (falling returns you to
+   the last checkpoint), then land on the final arena to drop Pni's shield and
+   start the 2000 HP fight. Pni enrages below half health. Winning shows the
+   **Pasture Champion** screen; **Keep exploring** returns you to the pasture.
+
+Each warden drops a gold relic when defeated, and each vault stays sealed until
+that specific boss is down. Armory and vault chests do not restock, so their loot
+is a one-time upgrade path. Regular chests can also roll swords, armor and ammo.
 
 ## Tech stack
 
@@ -185,9 +219,10 @@ No paid service or payment method is required for the default setup.
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
 | **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him) |
-| **F** | Interact: lift & carry, mount, feed, eat dropped meat even with a gun drawn, open a chest, or dismount |
+| **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest or vault, pick up a relic, use the portal, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
-| **1 – 5** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle) |
+| **1 – 8** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle / Frostbite Rifle / Sandstorm LMG / Pni's Bane RPG) |
+| **Q** | Cycle through the swords you own |
 | **P** | Open the admin panel |
 | **V** | Toggle fly mode |
 | **I** | Open the multiplayer invite panel (code, link, QR) |

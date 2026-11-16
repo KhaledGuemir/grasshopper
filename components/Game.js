@@ -107,17 +107,29 @@ export default function Game() {
 
       <div id="hud" hidden>
         <div className="row" id="stats">
-          <div className="pill stat" id="hpPill" title="Your hearts">
+          <div className="pill stat vit" id="hpPill" title="Your hearts and health bar">
             <span className="k">HP</span>
-            <span id="hearts" />
+            <span className="vwrap">
+              <span id="hearts" />
+              <span className="vtrack hp">
+                <i id="hpFill" />
+              </span>
+            </span>
+            <b id="hpN">10/10</b>
           </div>
           <div
-            className="pill stat"
+            className="pill stat vit"
             id="foodPill"
-            title="Hunger — punch any animal with E, then eat the meat with F"
+            title="Hunger bar — eat meat, apples, berries and strawberries with F"
           >
             <span className="k">Food</span>
-            <span id="hunger" />
+            <span className="vwrap">
+              <span id="hunger" />
+              <span className="vtrack food">
+                <i id="foodFill" />
+              </span>
+            </span>
+            <b id="foodN">10/10</b>
           </div>
           <div className="pill stat" id="foundPill" title="Kinds of creatures you have lifted or ridden">
             <span className="k">Found</span>
@@ -132,6 +144,14 @@ export default function Game() {
             <b id="compassDir">N</b>
             <div id="compassNeedle">↑</div>
           </div>
+          <div className="pill stat" id="relicPill" title="Gold relics — defeat Raoar and Lala, then open the portal near spawn">
+            <span className="k">Relics</span>
+            <b id="relicN">◇ 0/2</b>
+          </div>
+          <div className="pill stat" id="armorPill" title="Armor reduces damage from bosses and beasts" hidden>
+            <span className="k">Armor</span>
+            <b id="armorN">0%</b>
+          </div>
           <div className="pill stat" id="netPill" title="Multiplayer room" hidden>
             <span className="k">Room</span>
             <b id="netRoom">—</b>
@@ -142,11 +162,15 @@ export default function Game() {
           <div
             className="pill stat"
             id="ammoPill"
-            title="Weapon ammo — 1 pistol, 2 shotgun, 3 rifle, 4 AK-47, 5 Big Game Rifle"
+            title="Weapon ammo — 1 pistol, 2 shotgun, 3 rifle, 4 AK-47, 5 Big Game Rifle, 6 Frostbite, 7 Sandstorm, 8 Pni's Bane RPG"
             hidden
           >
             <span className="k" id="gunName">Pistol</span>
             <b id="ammoN">12</b>
+          </div>
+          <div className="pill stat" id="swordPill" title="Sword — press Q to cycle the blades you own" hidden>
+            <span className="k" id="swordName">Sword</span>
+            <b id="swordDmg">6</b>
           </div>
           <div className="pill stat" id="flyPill" title="Admin flight is on — look up and press W to climb" hidden>
             <b>FLY</b>
@@ -154,6 +178,16 @@ export default function Game() {
           <button className="pill" id="adminBtn" type="button" title="Open the admin panel (P)" hidden>
             ADMIN
           </button>
+        </div>
+        <div id="bossbar" hidden>
+          <div className="bline">
+            <b id="bossName">Raoar</b>
+            <span id="bossHpN">1005 / 1005</span>
+          </div>
+          <div id="bossTrack">
+            <i id="bossFill" />
+          </div>
+          <div id="bossHint">Frost Warden</div>
         </div>
         <div id="cross" />
         <div id="mobhp" hidden>
@@ -166,6 +200,18 @@ export default function Game() {
           </div>
         </div>
         <div id="toast" />
+        <div id="mapPanel" aria-label="Local map">
+          <div className="mapHead">
+            <span id="mapZone">Pasture</span>
+            <span id="mapDir">N</span>
+          </div>
+          <canvas id="minimap" width="164" height="164" />
+          <div className="mapLegend">
+            <span className="lg player">You</span>
+            <span className="lg dungeon">Dungeon</span>
+            <span className="lg portal">Portal</span>
+          </div>
+        </div>
         <div id="prompt" />
         <div id="touch">
           <div id="stick">
@@ -520,6 +566,27 @@ export default function Game() {
           <button className="btn" id="respawnBtn" type="button">
             Respawn
           </button>
+        </div>
+      </div>
+
+      <div className="wrap" id="winMenu" hidden>
+        <div className="card winCard">
+          <div className="winCrown" aria-hidden="true">
+            ♛
+          </div>
+          <h1>Pasture Champion</h1>
+          <p id="winMsg">
+            Pni has fallen. The snowfield, the desert and the sky realm are safe.
+          </p>
+          <div className="winStats" id="winStats" />
+          <div className="winBtns">
+            <button className="btn" id="winContinue" type="button">
+              Keep exploring
+            </button>
+            <button className="btn ghost" id="winAgain" type="button">
+              Play again
+            </button>
+          </div>
         </div>
       </div>
     </>
