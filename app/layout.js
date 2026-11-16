@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Grasshopper Pasture',
+  title: 'PNI',
   description: 'A first-person pasture sandbox: lift animals, ride beasts, explore cities and islands.',
   other: {
     'claude:viewport-fit-sides': 'cover',

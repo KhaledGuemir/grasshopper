@@ -1,4 +1,4 @@
-# Self-hosting Grasshopper Pasture
+# Self-hosting PNI
 
 This is the **zero-config, no-API-key** deployment. One Node process serves the
 game, the room API, WebRTC signaling and the HTTP relay fallback. You do not

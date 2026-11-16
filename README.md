@@ -1,4 +1,4 @@
-# 🐄 Grasshopper Pasture
+# PNI
 
 A first-person pastoral sandbox built with three.js and Next.js. Roam an open
 pasture, lift and carry creatures, mount the beasts, hunt when you get hungry,

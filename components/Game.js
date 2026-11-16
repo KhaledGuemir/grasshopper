@@ -237,7 +237,7 @@ export default function Game() {
 
       <div className="wrap" id="menu" hidden>
         <div className="card">
-          <h1>Grasshopper Pasture 🦗</h1>
+          <h1>PNI</h1>
           <div className="mpPanel" hidden={process.env.NEXT_PUBLIC_MULTIPLAYER === '0'}>
             <h2>Play with friends</h2>
             <div className="mpRow">

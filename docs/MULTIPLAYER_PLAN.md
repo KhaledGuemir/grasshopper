@@ -1,4 +1,4 @@
-# Multiplayer Plan — Grasshopper Pasture (Vercel Edition)
+# Multiplayer Plan — PNI (Vercel Edition)
 
 **Baseline:** `nextversion` @ `6079e27` (pulled 2026-11-13)
 **Deployment target:** the existing Next.js app on **Vercel** — no custom Node server, no second
