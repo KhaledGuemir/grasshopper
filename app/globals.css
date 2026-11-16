@@ -78,7 +78,7 @@ img{max-width:100%}
 .mapLegend{display:flex;gap:6px;justify-content:space-between;padding-top:4px;font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--paper);opacity:.9}
 .mapLegend .lg::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px;vertical-align:1px;background:#fff}
 .mapLegend .dungeon::before{background:#d0432f}
-.mapLegend .portal::before{background:#9a5aff}
+.mapLegend .portal::before{background:#35e0ff}
 body.touch #mapPanel{bottom:calc(214px + env(safe-area-inset-bottom,0px));transform:scale(.86);transform-origin:bottom right}
 #prompt span[data-a]{pointer-events:auto;cursor:pointer}
 #cross{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 2px var(--ink),inset 0 0 0 1px var(--ink);box-sizing:border-box}
