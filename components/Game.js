@@ -144,11 +144,11 @@ export default function Game() {
             <b id="compassDir">N</b>
             <div id="compassNeedle">↑</div>
           </div>
-          <div className="pill stat" id="relicPill" title="Gold relics — defeat Raoar and Lala, then open the portal near spawn">
+          <div className="pill stat" id="relicPill" title="Gold relics — find both in the frost and dune lairs, then open the portal near spawn">
             <span className="k">Relics</span>
             <b id="relicN">◇ 0/2</b>
           </div>
-          <div className="pill stat" id="armorPill" title="Armor reduces damage from bosses and beasts" hidden>
+          <div className="pill stat" id="armorPill" title="Armor reduces damage from beasts and hunters" hidden>
             <span className="k">Armor</span>
             <b id="armorN">0%</b>
           </div>
@@ -178,16 +178,6 @@ export default function Game() {
           <button className="pill" id="adminBtn" type="button" title="Open the admin panel (P)" hidden>
             ADMIN
           </button>
-        </div>
-        <div id="bossbar" hidden>
-          <div className="bline">
-            <b id="bossName">Raoar</b>
-            <span id="bossHpN">1005 / 1005</span>
-          </div>
-          <div id="bossTrack">
-            <i id="bossFill" />
-          </div>
-          <div id="bossHint">Frost Warden</div>
         </div>
         <div id="cross" />
         <div id="mobhp" hidden>
@@ -574,9 +564,9 @@ export default function Game() {
           <div className="winCrown" aria-hidden="true">
             ♛
           </div>
-          <h1>Pasture Champion</h1>
+          <h1>Sky Path Champion</h1>
           <p id="winMsg">
-            Pni has fallen. The snowfield, the desert and the sky realm are safe.
+            You crossed Pni&apos;s sky path and reached the perch. The lairs, relics and sky realm are yours to explore.
           </p>
           <div className="winStats" id="winStats" />
           <div className="winBtns">

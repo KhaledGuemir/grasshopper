@@ -26,15 +26,15 @@ wolves come out.
 - **HUD & minimap** — health and hunger fills, an 8-point compass
   (N/NE/E/SE/S/SW/W/NW) and a live local map that reveals dungeon lairs as you
   approach and marks the relic portal.
-- **Loot chests** scattered across the map, plus biome armories and boss-sealed
+- **Loot chests** scattered across the map, plus biome armories and relic
   vaults with endgame gear.
 - **Cities & islands** to explore.
 - **Weapons** — pistol, shotgun, rifle, AK-47, Big Game Rifle, Frostbite Rifle,
   Sandstorm LMG and the rocket-firing Pni's Bane RPG (700 damage).
 - **30 swords and armor tiers** — swap between every blade you own with
-  <kbd>Q</kbd>; armor reduces incoming damage from bosses and beasts.
-- **Three bosses and a real ending** — Raoar the Frost Warden, Lala the Dune
-  Sovereign and Pni, the 2000 HP final boss in a sky-parkour realm.
+  <kbd>Q</kbd>; armor reduces incoming damage from beasts and hunters.
+- **Two relic lairs and a sky-path finale** — explore the frost and dune lairs,
+  claim both gold relics, then cross Pni's floating sky course to the final arena.
 - **Living towns and wilds** — villagers swat ants, grasshoppers, bees and
   butterflies; hunters carry rifles and bring down game animals. A hunter needs
   two clean shots to drop a bear or a bull, then walks over to carry and eat the
@@ -56,28 +56,26 @@ wolves come out.
 
 ## Endgame
 
-The snowfield and desert each hide a boss lair at the centre of the biome. The
-progression is deliberately ordered:
+The snowfield and desert each hide a relic lair at the centre of the biome:
 
-1. **Raoar — Frost Warden (1005 HP, snowfield).** Open the armory chest by the
-   lair entrance for **Frostguard Armor** (50% damage reduction) and the
-   **Frostbite Rifle**. Defeat Raoar, then loot the vault behind him for
-   **Raoar's Warden Plate** (62%) and the **Winter's End** sword.
-2. **Lala — Dune Sovereign (1000 HP, desert).** The desert armory holds the
-   **Sunforged Aegis** (70%) and **Sandstorm LMG**. Lala's vault unlocks after
-   her defeat with **Pni's Skyguard** (78%), **Pharaoh's Wrath** and
-   **Pni's Bane**, a 700-damage RPG with five rockets.
-3. **The relic portal.** Each fallen warden drops a gold relic. With both relics,
-   the sealed portal near spawn wakes up: press <kbd>F</kbd> once to open it and
+1. **Frost lair (snowfield).** Open the armory chest by the lair entrance for
+   **Frostguard Armor** (50% damage reduction) and the **Frostbite Rifle**, then
+   loot the relic vault for **Raoar's Warden Plate** (62%) and the
+   **Winter's End** sword.
+2. **Dune lair (desert).** The desert armory holds the **Sunforged Aegis** (70%)
+   and **Sandstorm LMG**. The vault holds **Pni's Skyguard** (78%),
+   **Pharaoh's Wrath** and **Pni's Bane**, a 700-damage RPG with five rockets.
+3. **The relic portal.** Each lair holds one gold relic. With both relics, the
+   sealed portal near spawn wakes up: press <kbd>F</kbd> once to open it and
    again to step through.
-4. **Pni's sky path.** Cross the floating platform course (falling returns you to
-   the last checkpoint), then land on the final arena to drop Pni's shield and
-   start the 2000 HP fight. Pni enrages below half health. Winning shows the
-   **Pasture Champion** screen; **Keep exploring** returns you to the pasture.
+4. **Pni's sky path.** Cross the floating platform course (falling returns you
+   to the last checkpoint) and land on the final arena to finish the course.
+   The **Sky Path Champion** screen appears; **Keep exploring** returns you to
+   the pasture.
 
-Each warden drops a gold relic when defeated, and each vault stays sealed until
-that specific boss is down. Armory and vault chests do not restock, so their loot
-is a one-time upgrade path. Regular chests can also roll swords, armor and ammo.
+The lairs are open to explore — no boss fights block the way. Armory and vault
+chests do not restock, so their loot is a one-time upgrade path. Regular chests
+can also roll swords, armor and ammo.
 
 ## Tech stack
 
