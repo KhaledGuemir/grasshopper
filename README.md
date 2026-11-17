@@ -220,9 +220,10 @@ No paid service or payment method is required for the default setup.
 | **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest or vault, pick up a relic, use the portal, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 8** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle / Frostbite Rifle / Sandstorm LMG / Pni's Bane RPG) |
+| **V** | Cycle through the guns you own |
 | **Q** | Cycle through the swords you own |
 | **P** | Open the admin panel |
-| **V** | Toggle fly mode |
+| **B** | Toggle admin fly mode |
 | **I** | Open the multiplayer invite panel (code, link, QR) |
 | **M** | Mute / unmute sound |
 | **F2** | Toggle the cheat console |
