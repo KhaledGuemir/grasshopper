@@ -24,17 +24,16 @@ wolves come out.
   dropped meat, and wild fruit (apples, blueberries, strawberries, berries and
   blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes HP.
 - **HUD & minimap** — health and hunger fills, an 8-point compass
-  (N/NE/E/SE/S/SW/W/NW) and a live local map that reveals dungeon lairs as you
-  approach and marks the relic portal.
-- **Loot chests** scattered across the map, plus biome armories and relic
-  vaults with endgame gear.
+  (N/NE/E/SE/S/SW/W/NW) and a live local map of the islands, water and nearby
+  chests.
+- **Loot chests** scattered across the map, restocking swords, armor, guns,
+  ammo and food.
 - **Cities & islands** to explore.
-- **Weapons** — pistol, shotgun, rifle, AK-47, Big Game Rifle, Frostbite Rifle,
-  Sandstorm LMG and the rocket-firing Pni's Bane RPG (700 damage).
+- **Weapons** — pistol, shotgun, rifle, AK-47 and Big Game Rifle in chests,
+  plus the Frostbite Rifle, Sandstorm LMG and rocket-firing Pni's Bane RPG in
+  the admin panel.
 - **30 swords and armor tiers** — swap between every blade you own with
   <kbd>Q</kbd>; armor reduces incoming damage from beasts and hunters.
-- **Two relic lairs and a sky-path finale** — explore the frost and dune lairs,
-  claim both gold relics, then cross Pni's floating sky course to the final arena.
 - **Living towns and wilds** — villagers swat ants, grasshoppers, bees and
   butterflies; hunters carry rifles and bring down game animals. A hunter needs
   two clean shots to drop a bear or a bull, then walks over to carry and eat the
@@ -53,29 +52,6 @@ wolves come out.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
   QR code, and play with up to 5 friends (6 players total). No account, API key, Redis or TURN
   service is required.
-
-## Endgame
-
-The snowfield and desert each hide a relic lair at the centre of the biome:
-
-1. **Frost lair (snowfield).** Open the armory chest by the lair entrance for
-   **Frostguard Armor** (50% damage reduction) and the **Frostbite Rifle**, then
-   loot the relic vault for **Raoar's Warden Plate** (62%) and the
-   **Winter's End** sword.
-2. **Dune lair (desert).** The desert armory holds the **Sunforged Aegis** (70%)
-   and **Sandstorm LMG**. The vault holds **Pni's Skyguard** (78%),
-   **Pharaoh's Wrath** and **Pni's Bane**, a 700-damage RPG with five rockets.
-3. **The relic portal.** Each lair holds one gold relic. With both relics, the
-   sealed portal near spawn wakes up: press <kbd>F</kbd> once to open it and
-   again to step through.
-4. **Pni's sky path.** Cross the floating platform course (falling returns you
-   to the last checkpoint) and land on the final arena to finish the course.
-   The **Sky Path Champion** screen appears; **Keep exploring** returns you to
-   the pasture.
-
-The lairs are open to explore — no boss fights block the way. Armory and vault
-chests do not restock, so their loot is a one-time upgrade path. Regular chests
-can also roll swords, armor and ammo.
 
 ## Tech stack
 
@@ -217,7 +193,7 @@ No paid service or payment method is required for the default setup.
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
 | **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him) |
-| **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest or vault, pick up a relic, use the portal, or dismount |
+| **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest, or dismount |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 8** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle / Frostbite Rifle / Sandstorm LMG / Pni's Bane RPG) |
 | **V** | Cycle through the guns you own |

@@ -75,10 +75,6 @@ img{max-width:100%}
 #mapZone{max-width:112px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #mapDir{color:var(--hay)}
 #minimap{display:block;width:100%;height:auto;border-radius:9px;background:#476b3b}
-.mapLegend{display:flex;gap:6px;justify-content:space-between;padding-top:4px;font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--paper);opacity:.9}
-.mapLegend .lg::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px;vertical-align:1px;background:#fff}
-.mapLegend .dungeon::before{background:#d0432f}
-.mapLegend .portal::before{background:#35e0ff}
 body.touch #mapPanel{bottom:calc(214px + env(safe-area-inset-bottom,0px));transform:scale(.86);transform-origin:bottom right}
 #prompt span[data-a]{pointer-events:auto;cursor:pointer}
 #cross{position:absolute;left:50%;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 2px var(--ink),inset 0 0 0 1px var(--ink);box-sizing:border-box}
@@ -213,15 +209,6 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .deathCard{text-align:center}
 .deathCard p{max-width:34ch;margin:0 auto 20px}
 .deathCard .btn{min-width:180px}
-#winMenu{z-index:55;background:radial-gradient(ellipse at center,rgba(241,194,75,.26),rgba(24,35,20,.84))}
-.winCard{text-align:center;max-width:520px;border-color:var(--hay);box-shadow:0 10px 0 var(--ink),0 0 0 6px rgba(241,194,75,.2)}
-.winCard h1{color:var(--barn);letter-spacing:.02em}
-.winCard p{max-width:42ch;margin:0 auto 14px}
-.winCrown{font-size:58px;line-height:1;color:var(--hay);text-shadow:0 4px 0 var(--ink);margin-bottom:2px}
-.winStats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 auto 20px;font-family:var(--display);font-size:15px}
-.winStats span{background:var(--paper);border:2px solid var(--ink);border-radius:10px;padding:4px 10px;box-shadow:0 3px 0 var(--ink)}
-.winBtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.winBtns .btn{min-width:160px}
 .btn.ghost{background:var(--paper);color:var(--ink)}
 
 @media (prefers-reduced-motion:reduce){#toast,#flash{transition:none}}

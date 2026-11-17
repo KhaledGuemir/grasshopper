@@ -144,10 +144,6 @@ export default function Game() {
             <b id="compassDir">N</b>
             <div id="compassNeedle">↑</div>
           </div>
-          <div className="pill stat" id="relicPill" title="Gold relics — find both in the frost and dune lairs, then open the portal near spawn">
-            <span className="k">Relics</span>
-            <b id="relicN">◇ 0/2</b>
-          </div>
           <div className="pill stat" id="armorPill" title="Armor reduces damage from beasts and hunters" hidden>
             <span className="k">Armor</span>
             <b id="armorN">0%</b>
@@ -196,11 +192,6 @@ export default function Game() {
             <span id="mapDir">N</span>
           </div>
           <canvas id="minimap" width="164" height="164" />
-          <div className="mapLegend">
-            <span className="lg player">You</span>
-            <span className="lg dungeon">Dungeon</span>
-            <span className="lg portal">Portal</span>
-          </div>
         </div>
         <div id="prompt" />
         <div id="touch">
@@ -556,27 +547,6 @@ export default function Game() {
           <button className="btn" id="respawnBtn" type="button">
             Respawn
           </button>
-        </div>
-      </div>
-
-      <div className="wrap" id="winMenu" hidden>
-        <div className="card winCard">
-          <div className="winCrown" aria-hidden="true">
-            ♛
-          </div>
-          <h1>Sky Path Champion</h1>
-          <p id="winMsg">
-            You crossed Pni&apos;s sky path and reached the perch. The lairs, relics and sky realm are yours to explore.
-          </p>
-          <div className="winStats" id="winStats" />
-          <div className="winBtns">
-            <button className="btn" id="winContinue" type="button">
-              Keep exploring
-            </button>
-            <button className="btn ghost" id="winAgain" type="button">
-              Play again
-            </button>
-          </div>
         </div>
       </div>
     </>
