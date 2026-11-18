@@ -10,6 +10,61 @@ import { clearSession, loadSession, saveSession } from '@/lib/net/session';
 // mount to guarantee the world boots exactly once even under dev HMR remounts.
 let booted = false;
 
+const MORPH_GROUPS = [
+  {
+    label: 'Animals',
+    options: [
+      ['cow', 'Cow'],
+      ['bull', 'Bull'],
+      ['sheep', 'Sheep'],
+      ['chicken', 'Chicken'],
+      ['bunny', 'Bunny'],
+      ['horse', 'Horse'],
+      ['deer', 'Deer'],
+      ['bear', 'Bear'],
+      ['wolf', 'Wolf'],
+      ['camel', 'Camel'],
+      ['cobra', 'Cobra'],
+      ['snake', 'Snake'],
+      ['penguin', 'Penguin'],
+      ['snowbear', 'Snow Bear'],
+      ['lion', 'Lion'],
+      ['tiger', 'Tiger'],
+      ['elephant', 'Elephant'],
+      ['zebra', 'Zebra'],
+      ['meerkat', 'Meerkat'],
+      ['locust', 'Locust'],
+      ['cat', 'Cat'],
+      ['dog', 'Dog'],
+      ['hopper', 'Grasshopper'],
+      ['fish', 'Fish'],
+      ['bee', 'Bee'],
+      ['butterfly', 'Butterfly'],
+      ['bird', 'Bird'],
+      ['ant', 'Ant'],
+    ],
+  },
+  {
+    label: 'People',
+    options: [
+      ['human', 'Human'],
+      ['farmer', 'Farmer'],
+      ['traveler', 'Traveler'],
+      ['hunter', 'Hunter'],
+    ],
+  },
+  {
+    label: 'Objects',
+    options: [
+      ['bale', 'Hay Bale'],
+      ['rock', 'Rock'],
+      ['barrel', 'Barrel'],
+      ['chest', 'Loot Chest'],
+      ['meat', 'Meat'],
+    ],
+  },
+];
+
 export default function Game() {
   const [mpName, setMpName] = useState('');
   const [mpCode, setMpCode] = useState('');
@@ -306,12 +361,12 @@ export default function Game() {
           <h1>Admin</h1>
           <p className="adminHint">
             Admin unlocked — everything is yours. Press <kbd>F2</kbd> or <kbd>P</kbd> to open this panel.
-            Spawn any creature or item, grant every weapon and food, teleport to every biome, lift anything,
-            turn on Never Die, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
+            Spawn any creature or item, morph into any animal, person or object, grant every weapon and food,
+            teleport to every biome, lift anything, turn on Never Die, and one-shot every animal. Press <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>{' '}
             <kbd>4</kbd> <kbd>5</kbd> to switch guns, or <kbd>V</kbd> to cycle every gun you own. <kbd>E</kbd> or right-click to fire. Flight: <kbd>B</kbd>, then look
             up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
             land at your crosshair. Tornadoes lift animals and will carry you to the top. Turn Lift Everything
-            off to open chests or eat meat.
+            off to open chests or eat meat with your fists — a drawn gun always eats meat and opens chests first.
           </p>
           <p className="adminMsg" id="adminMsg" />
           <div className="adminGrid">
@@ -426,6 +481,26 @@ export default function Game() {
             </button>
             <button className="abtn" id="abSpawnAll" type="button">
               Spawn EVERYTHING
+            </button>
+          </div>
+          <div className="adminRow">
+            <label htmlFor="abMorphKind">Morph into</label>
+            <select id="abMorphKind" defaultValue="cow">
+              {MORPH_GROUPS.map((group) => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.options.map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+            <button className="abtn" id="abMorphBtn" type="button">
+              Morph
+            </button>
+            <button className="abtn" id="abMorphRestore" type="button" disabled>
+              Restore me
             </button>
           </div>
           <div className="adminRow">
