@@ -17,12 +17,16 @@ wolves come out.
 
 - **First-person 3D world** — pointer-locked mouse look, WASD movement, sprinting.
 - **Lift & carry** — grab creatures and haul them around. Small pickups rest in
-  your hand instead of floating in front of the camera (progress toward all 27).
+  your hand instead of floating in front of the camera (progress toward all 28).
 - **Mount & ride** the beasts, and travel tower floors.
 - **Day / night cycle** (a full day ≈ 300s) with night wolves.
 - **Survival** — 10 hearts with a health bar, a hunger bar that drains over time,
-  dropped meat, and wild fruit (apples, blueberries, strawberries, berries and
-  blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes HP.
+  dropped meat, and wild fruit (apples, acorns, blueberries, strawberries, berries
+  and blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes
+  HP. Fruit regrows on the tree or bush every 7 seconds.
+- **Living seas, lakes and rivers** — swim off the beach into open water as deep as you
+  like, meet fish, sharks and surfacing whales, and find crabs and starfish on
+  the sand. Lakes and rivers are home to fish, eels and frogs on lily pads.
 - **HUD & minimap** — health and hunger fills, an 8-point compass
   (N/NE/E/SE/S/SW/W/NW) and a live local map of the islands, water and nearby
   chests.

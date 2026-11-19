@@ -38,6 +38,7 @@ const MORPH_GROUPS = [
       ['dog', 'Dog'],
       ['hopper', 'Grasshopper'],
       ['fish', 'Fish'],
+      ['eel', 'Eel'],
       ['bee', 'Bee'],
       ['butterfly', 'Butterfly'],
       ['bird', 'Bird'],
@@ -188,7 +189,7 @@ export default function Game() {
           </div>
           <div className="pill stat" id="foundPill" title="Kinds of creatures you have lifted or ridden">
             <span className="k">Found</span>
-            <b id="foundN">0/13</b>
+            <b id="foundN">0/28</b>
           </div>
           <div className="pill stat" id="timePill" title="Time of day">
             <span className="k">Time</span>
@@ -456,6 +457,7 @@ export default function Game() {
               <option value="dog">Dog</option>
               <option value="hopper">Grasshopper</option>
               <option value="fish">Fish</option>
+              <option value="eel">Eel</option>
               <option value="bee">Bee</option>
               <option value="butterfly">Butterfly</option>
               <option value="bird">Bird</option>
