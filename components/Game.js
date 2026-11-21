@@ -242,13 +242,6 @@ export default function Game() {
           </div>
         </div>
         <div id="toast" />
-        <div id="mapPanel" aria-label="Local map">
-          <div className="mapHead">
-            <span id="mapZone">Pasture</span>
-            <span id="mapDir">N</span>
-          </div>
-          <canvas id="minimap" width="164" height="164" />
-        </div>
         <div id="prompt" />
         <div id="touch">
           <div id="stick">

@@ -27,9 +27,8 @@ wolves come out.
 - **Living seas, lakes and rivers** — swim off the beach into open water as deep as you
   like, meet fish, sharks and surfacing whales, and find crabs and starfish on
   the sand. Lakes and rivers are home to fish, eels and frogs on lily pads.
-- **HUD & minimap** — health and hunger fills, an 8-point compass
-  (N/NE/E/SE/S/SW/W/NW) and a live local map of the islands, water and nearby
-  chests.
+- **HUD** — health and hunger fills and an 8-point compass
+  (N/NE/E/SE/S/SW/W/NW).
 - **Loot chests** scattered across the map, restocking swords, armor, guns,
   ammo and food.
 - **Cities & islands** to explore.
