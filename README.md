@@ -211,7 +211,8 @@ No paid service or payment method is required for the default setup.
 
 > **Cheat console (F2):** type `admin` to unlock powers, or enter a gun code to
 > grab a weapon. The console hints you in — try `admin` for powers, or `guns`
-> for weapons.
+> for weapons. In a multiplayer room, entering the admin code unlocks admin for
+> every player in the room.
 
 ## Project layout
 
