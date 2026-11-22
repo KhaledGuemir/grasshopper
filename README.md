@@ -55,6 +55,9 @@ wolves come out.
 - **Private co-op rooms** — host a room, share a 6-character code, invite link or
   QR code, and play with up to 5 friends (6 players total). No account, API key, Redis or TURN
   service is required.
+- **PvP in every room** — draw a weapon and shoot, or swing a sword, at any other
+  player. Hit markers, floating player health and kill messages are shared across
+  the room; the host keeps the world running even while its admin panel is open.
 
 ## Tech stack
 
@@ -164,8 +167,9 @@ source, TURN status and protocol version.
   2 hours, and are kept alive by the host heartbeat.
 - Clients automatically reconnect with backoff while the host room is alive;
   reloading a client rejoins through `/api/rooms/rejoin`.
-- Punch/shoot, chest opening and player movement are replicated. Carrying,
-  riding, feeding and full loot/inventory ownership are still partly host-side.
+- Punch/shoot, PvP damage, chest opening and player movement are replicated.
+  Carrying, riding, feeding and full loot/inventory ownership are still partly
+  host-side.
 - NPC animation state is only partially replicated; clients interpolate positions
   and basic states.
 - The HTTP relay is intended for self-hosting. On a serverless plan it still
@@ -211,8 +215,7 @@ No paid service or payment method is required for the default setup.
 
 > **Cheat console (F2):** type `admin` to unlock powers, or enter a gun code to
 > grab a weapon. The console hints you in — try `admin` for powers, or `guns`
-> for weapons. In a multiplayer room, entering the admin code unlocks admin for
-> every player in the room.
+> for weapons.
 
 ## Project layout
 

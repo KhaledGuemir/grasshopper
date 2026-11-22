@@ -361,7 +361,6 @@ export default function Game() {
             up and hold <kbd>W</kbd> to climb. Aim first, then open this panel: spawned things and the tornado
             land at your crosshair. Tornadoes lift animals and will carry you to the top. Turn Lift Everything
             off to open chests or eat meat with your fists — a drawn gun always eats meat and opens chests first.
-            In multiplayer, entering the admin code unlocks admin for every player in the room.
           </p>
           <p className="adminMsg" id="adminMsg" />
           <div className="adminGrid">
