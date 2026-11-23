@@ -21,7 +21,8 @@ wolves come out.
 - **Mount & ride** the beasts, and travel tower floors.
 - **Day / night cycle** (a full day ≈ 300s) with night wolves.
 - **Stormy days** — storm fronts turn the sky slate gray, bring rain, lightning
-  and rolling thunder, and are the only weather in which natural tornadoes form.
+  and rolling thunder, and are the only weather in which natural tornadoes form —
+  and even then only rarely (most storms pass without one).
 - **Survival** — 10 hearts with a health bar, a hunger bar that drains over time,
   dropped meat, and wild fruit (apples, acorns, blueberries, strawberries, berries
   and blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes
