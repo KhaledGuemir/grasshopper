@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { mulberry32 } from '../lib/world/rng.js';
-import { carCountForCity, cityContaining, insideCity, planCityCars } from '../lib/world/cars.js';
+import { carCountForCity, carHitsCircle, carMobPush, cityContaining, insideCity, planCityCars } from '../lib/world/cars.js';
 
 const cities = [
   { x: 0, z: 0, radius: 62, kind: 'v1' },
@@ -46,4 +46,25 @@ test('cityContaining finds a town and rejects the open pasture', () => {
   assert.equal(cityContaining(cities, 1, 1, 0), cities[0]);
   assert.equal(cityContaining(cities, 400, 0, 0), null);
   assert.equal(cityContaining(cities, 390, -40, 40), cities[1]);
+});
+
+test('a car hits mobs in front, behind and beside it', () => {
+  assert.ok(carHitsCircle(0, 0, 0, 0, 2, 0.5), 'mob in front should collide');
+  assert.ok(carHitsCircle(0, 0, 0, 0, -2, 0.5), 'mob behind should collide');
+  assert.ok(carHitsCircle(0, 0, 0, 1.2, 0, 0.5), 'mob beside the door should collide');
+  assert.ok(carHitsCircle(0, 0, Math.PI / 2, 2, 0, 0.5), 'heading should rotate the box');
+  assert.equal(carHitsCircle(0, 0, 0, 0, 5, 0.5), null, 'distant mob should not collide');
+  assert.equal(carHitsCircle(0, 0, 0, 3, 0, 0.5), null, 'grazing mob should not collide');
+});
+
+test('collision pushes a mob out along the nearest car face', () => {
+  const front = carHitsCircle(0, 0, 0, 0, 2, 0.5);
+  const pushFront = carMobPush(front, 0);
+  assert.ok(pushFront.z > 0 && Math.abs(pushFront.x) < 1e-9, 'front hit should push forward');
+  const side = carHitsCircle(0, 0, 0, 1.2, 0, 0.5);
+  const pushSide = carMobPush(side, 0);
+  assert.ok(pushSide.x > 0 && Math.abs(pushSide.z) < 1e-9, 'side hit should push sideways');
+  const turned = carHitsCircle(0, 0, Math.PI / 2, 2, 0, 0.5);
+  const pushTurned = carMobPush(turned, Math.PI / 2);
+  assert.ok(pushTurned.x > 0 && Math.abs(pushTurned.z) < 1e-9, 'rotated front hit should push along +x');
 });

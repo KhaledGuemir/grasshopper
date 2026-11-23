@@ -36,7 +36,9 @@ wolves come out.
   Press <kbd>F</kbd> to get in, drive with <kbd>W</kbd>/<kbd>A</kbd>/<kbd>S</kbd>/<kbd>D</kbd>,
   hold <kbd>Shift</kbd> for speed, brake with <kbd>Space</kbd>, honk with <kbd>E</kbd>
   and press <kbd>F</kbd> again to get out. Cars never spawn out in the pasture,
-  on the beach or on the islands — they are only found in cities.
+  on the beach or on the islands — they are only found in cities. They are solid
+  to animals and villagers too: a parked car blocks them, and a moving car shoves
+  or launches them and loses speed on impact.
 - **Weapons** — pistol, shotgun, rifle, AK-47 and Big Game Rifle in chests,
   plus the Frostbite Rifle, Sandstorm LMG and rocket-firing Pni's Bane RPG in
   the admin panel.
