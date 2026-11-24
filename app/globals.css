@@ -145,7 +145,7 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 #inviteQr{width:100%;height:auto;display:block;image-rendering:pixelated}
 .invitePlayersLabel{margin:8px 0 4px !important;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:11px !important}
 .invitePlayers{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 10px;min-height:1.6em}
-.invitePlayer{font-size:12px;font-weight:800;background:var(--hay);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.invitePlayer{font-size:12px;font-weight:800;background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .invitePlayer.host{background:#fff;color:var(--barn)}
 
 /* Gender / skin picker */
@@ -163,6 +163,24 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .genderBtn[data-gender="male"] .gFace{background:#e9b98e;color:#2f5639}
 .gTag{font-size:14px;font-weight:800;line-height:1}
 .gSub{font-size:11px;font-weight:700;opacity:.65;line-height:1}
+
+/* Avatar colour, hair and hat picker */
+.avatarPick{margin:0 0 18px}
+.avatarToggle{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-size:18px;padding:9px 16px}
+.avatarChev{font-size:13px;line-height:1;transition:transform .15s}
+.avatarToggle[aria-expanded="true"] .avatarChev{transform:rotate(180deg)}
+.avatarPanel{border:3px dashed rgba(36,51,28,.3);border-radius:14px;padding:12px;margin-top:10px;background:rgba(255,255,255,.45)}
+.avatarPanel[hidden]{display:none}
+.avatarGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.avatarField{display:grid;gap:4px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;min-width:0}
+.avatarField input[type="color"]{width:100%;height:36px;border:3px solid var(--ink);border-radius:10px;background:#fff;padding:3px;cursor:pointer;box-sizing:border-box}
+.avatarField select{width:100%;font-family:var(--body);font-weight:800;font-size:14px;border:3px solid var(--ink);border-radius:10px;padding:7px 8px;background:#fff;color:var(--ink);box-sizing:border-box}
+.avatarField input:focus-visible,.avatarField select:focus-visible{outline:3px solid var(--barn);outline-offset:1px}
+.avatarRow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.avatarReset{font-family:var(--body);font-weight:800;font-size:13px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:10px;box-shadow:0 3px 0 var(--ink);padding:6px 10px;cursor:pointer}
+.avatarReset:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.avatarReset:focus-visible{outline:3px solid var(--barn);outline-offset:2px}
+.avatarNote{font-size:11px;font-weight:700;opacity:.7;line-height:1.3;flex:1 1 150px}
 
 #loadingMenu { z-index: 100; background: var(--sky); }
 .spinner { width: 40px; height: 40px; border: 5px solid var(--ink); border-bottom-color: transparent; border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; margin-top: 15px;}

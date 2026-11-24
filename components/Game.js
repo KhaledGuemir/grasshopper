@@ -72,6 +72,7 @@ export default function Game() {
   const [mpStatus, setMpStatus] = useState('');
   const [mpBusy, setMpBusy] = useState(false);
   const [mpSession, setMpSession] = useState(null);
+  const [avatarOpen, setAvatarOpen] = useState(false);
 
   useEffect(() => {
     if (booted) return;
@@ -342,6 +343,73 @@ export default function Game() {
                 <span className="gTag">Male</span>
                 <span className="gSub">boy</span>
               </button>
+            </div>
+          </div>
+          <div className="avatarPick">
+            <button
+              className="btn avatarToggle"
+              id="avatarToggle"
+              type="button"
+              aria-expanded={avatarOpen}
+              aria-controls="avatarPanel"
+              onClick={() => setAvatarOpen((open) => !open)}
+            >
+              Customize Avatar
+              <span className="avatarChev" aria-hidden="true">
+                ▾
+              </span>
+            </button>
+            <div className="avatarPanel" id="avatarPanel" hidden={!avatarOpen}>
+              <div className="avatarGrid">
+                <label className="avatarField">
+                  Skin
+                  <input type="color" id="avSkin" defaultValue="#e9b98e" />
+                </label>
+                <label className="avatarField">
+                  Hair
+                  <input type="color" id="avHair" defaultValue="#35251a" />
+                </label>
+                <label className="avatarField">
+                  Eyes
+                  <input type="color" id="avEye" defaultValue="#16120e" />
+                </label>
+                <label className="avatarField">
+                  Shirt
+                  <input type="color" id="avShirt" defaultValue="#3f6d4a" />
+                </label>
+                <label className="avatarField">
+                  Pants
+                  <input type="color" id="avPants" defaultValue="#2f5639" />
+                </label>
+                <label className="avatarField">
+                  Hair style
+                  <select id="avHairStyle" defaultValue="short">
+                    <option value="short">Short</option>
+                    <option value="long">Long</option>
+                    <option value="buzz">Buzz</option>
+                    <option value="curly">Curly</option>
+                    <option value="ponytail">Ponytail</option>
+                    <option value="none">Bald</option>
+                  </select>
+                </label>
+                <label className="avatarField">
+                  Hat
+                  <select id="avHat" defaultValue="none">
+                    <option value="none">No hat</option>
+                    <option value="straw">Straw hat</option>
+                    <option value="cap">Cap</option>
+                    <option value="cowboy">Cowboy hat</option>
+                    <option value="crown">Crown</option>
+                    <option value="beanie">Beanie</option>
+                  </select>
+                </label>
+              </div>
+              <div className="avatarRow">
+                <button className="avatarReset" id="avReset" type="button">
+                  Reset look
+                </button>
+                <span className="avatarNote">Friends see this avatar. Press F3 for third person.</span>
+              </div>
             </div>
           </div>
           <button className="btn" id="play" type="button">
