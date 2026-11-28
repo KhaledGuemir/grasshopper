@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    image: grasshopper-pasture:latest
+    image: wildcloud:latest
     restart: unless-stopped
     ports:
       - "3000:3000"
