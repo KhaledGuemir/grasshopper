@@ -190,7 +190,7 @@ export default function Game() {
           </div>
           <div className="pill stat" id="foundPill" title="Kinds of creatures you have lifted or ridden">
             <span className="k">Found</span>
-            <b id="foundN">0/28</b>
+            <b id="foundN">0/29</b>
           </div>
           <div className="pill stat" id="timePill" title="Time of day">
             <span className="k">Time</span>
@@ -224,6 +224,15 @@ export default function Game() {
           <div className="pill stat" id="swordPill" title="Sword — press Q to cycle the blades you own" hidden>
             <span className="k" id="swordName">Sword</span>
             <b id="swordDmg">6</b>
+          </div>
+          <div
+            className="pill stat"
+            id="rodPill"
+            title="Fishing rod — press R to take it out, E to cast and reel in"
+            hidden
+          >
+            <span className="k">Rod</span>
+            <b>R</b>
           </div>
           <div className="pill stat" id="flyPill" title="Admin flight is on — look up and press W to climb" hidden>
             <b>FLY</b>

@@ -233,7 +233,8 @@ async function main() {
   if (hostState.remotes.length < 1) throw new Error('host has no remote player');
   if (clientState.remotes.length < 1) throw new Error('client has no host avatar');
 
-  /* world layout: a bridge beside each city river, and two cities per biome */
+  /* world layout: a deck on every river (the highland river crosses its town),
+     and two cities per biome */
   const world = await host.evaluate(() => window.__GH_NET__.world);
   const clientWorld = await client.evaluate(() => window.__GH_NET__.world);
   log('world layout', JSON.stringify({
@@ -244,7 +245,7 @@ async function main() {
   if (JSON.stringify(world) !== JSON.stringify(clientWorld)) {
     throw new Error('host and client generated different world layouts');
   }
-  if (world.bridges.length !== 11) throw new Error(`expected 11 bridges, found ${world.bridges.length}`);
+  if (world.bridges.length !== 12) throw new Error(`expected 12 bridges, found ${world.bridges.length}`);
   if (world.homeCities.length !== 6) throw new Error(`expected 6 home cities, found ${world.homeCities.length}`);
   if (world.biomeCities.length !== 15) throw new Error(`expected 15 biome cities, found ${world.biomeCities.length}`);
   if (world.villages.length !== 21) throw new Error(`expected 21 cities, found ${world.villages.length}`);
