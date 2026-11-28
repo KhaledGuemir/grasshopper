@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --no-warnings --experimental-loader ./tools/esm-loader.mjs --test tests/world.test.mjs tests/protocol.test.mjs tests/relay.test.mjs tests/api.test.mjs tests/store.test.mjs tests/security.test.mjs",
+    "test": "node --no-warnings --experimental-loader ./tools/esm-loader.mjs --test tests/world.test.mjs tests/cars.test.mjs tests/protocol.test.mjs tests/relay.test.mjs tests/api.test.mjs tests/store.test.mjs tests/security.test.mjs",
     "test:browser": "node tests/browser.mjs"
   },
   "dependencies": {

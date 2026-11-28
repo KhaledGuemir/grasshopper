@@ -249,6 +249,16 @@ async function main() {
   if (world.homeCities.length !== 6) throw new Error(`expected 6 home cities, found ${world.homeCities.length}`);
   if (world.biomeCities.length !== 15) throw new Error(`expected 15 biome cities, found ${world.biomeCities.length}`);
   if (world.villages.length !== 21) throw new Error(`expected 21 cities, found ${world.villages.length}`);
+  /* cars belong to the towns: every parked car must be inside a city radius */
+  if (!Array.isArray(world.cars) || world.cars.length < 21) {
+    throw new Error(`expected city cars, found ${world.cars ? world.cars.length : 'none'}`);
+  }
+  for (const car of world.cars) {
+    const inside = world.citySpots.some(
+      (city) => Math.hypot(car.x - city.x, car.z - city.z) <= city.radius
+    );
+    if (!inside) throw new Error(`car ${car.id || car.kind} was placed outside every city`);
+  }
   const segDist = (pts, x, z) => {
     let best = Infinity;
     for (let i = 0; i < pts.length - 1; i++) {

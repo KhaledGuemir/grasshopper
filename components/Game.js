@@ -161,6 +161,7 @@ export default function Game() {
     <>
       <canvas id="c" aria-label="First-person 3D pasture" />
       <div id="flash" />
+      <div id="lightning" />
 
       <div id="hud" hidden>
         <div className="row" id="stats">

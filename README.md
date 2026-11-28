@@ -20,6 +20,9 @@ wolves come out.
   your hand instead of floating in front of the camera (progress toward all 28).
 - **Mount & ride** the beasts, and travel tower floors.
 - **Day / night cycle** (a full day ≈ 300s) with night wolves.
+- **Stormy days** — storm fronts turn the sky slate gray, bring rain, lightning
+  and rolling thunder, and are the only weather in which natural tornadoes form —
+  and even then only rarely (most storms pass without one).
 - **Survival** — 10 hearts with a health bar, a hunger bar that drains over time,
   dropped meat, and wild fruit (apples, acorns, blueberries, strawberries, berries
   and blackberries) you can eat with <kbd>F</kbd> to refill hunger and sometimes
@@ -32,6 +35,13 @@ wolves come out.
 - **Loot chests** scattered across the map, restocking swords, armor, guns,
   ammo and food.
 - **Cities & islands** to explore.
+- **City cars** — every town parks a few drivable low-poly cars along its lanes.
+  Press <kbd>F</kbd> to get in, drive with <kbd>W</kbd>/<kbd>A</kbd>/<kbd>S</kbd>/<kbd>D</kbd>,
+  hold <kbd>Shift</kbd> for speed, brake with <kbd>Space</kbd>, honk with <kbd>E</kbd>
+  and press <kbd>F</kbd> again to get out. Cars never spawn out in the pasture,
+  on the beach or on the islands — they are only found in cities. They are solid
+  to animals and villagers too: a parked car blocks them, and a moving car shoves
+  or launches them and loses speed on impact.
 - **Weapons** — pistol, shotgun, rifle, AK-47 and Big Game Rifle in chests,
   plus the Frostbite Rifle, Sandstorm LMG and rocket-firing Pni's Bane RPG in
   the admin panel.
@@ -80,7 +90,7 @@ npm run dev        # http://localhost:3000
 ```bash
 npm run build
 npm start
-npm test              # deterministic world, room API, relay, store and security tests
+npm test              # deterministic world, city-car planning, room API, relay, store and security tests
 npm run test:browser  # two-tab co-op smoke test (needs `npm run dev` + Chrome)
 ```
 
@@ -195,12 +205,12 @@ No paid service or payment method is required for the default setup.
 | --- | --- |
 | **W A S D** / **Arrows** | Move (forward / left / back / right) |
 | **Mouse** | Look and aim (click the canvas to lock the pointer) |
-| **Shift** | Sprint / faster fly |
+| **Shift** | Sprint / faster fly / more car speed |
 | **Space** | Jump (or climb while flying) |
 | **F3** | Toggle first-person / third-person avatar view |
 | **Enter / Space** | Respawn after collapsing |
-| **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him) |
-| **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest, or dismount |
+| **E** | Punch — or shoot when a gun is armed (punching a hunter provokes him); honk while driving a car |
+| **F** | Interact: lift & carry, mount, feed, eat fruit or dropped meat even with a gun drawn, open a chest, dismount, or get in/out of a city car |
 | **G** | Descend a tower floor (or mount a target while in admin) |
 | **1 – 8** | Select weapon (pistol / shotgun / rifle / AK-47 / Big Game Rifle / Frostbite Rifle / Sandstorm LMG / Pni's Bane RPG) |
 | **V** | Cycle through the guns you own |
@@ -236,7 +246,7 @@ grasshopper/
 │   ├── game.js            # World, entities, loop, HUD, net hooks
 │   ├── net/               # protocol, session, signaling, WebRTC + relay
 │   ├── server/            # room store, tokens, HTTP helpers
-│   └── world/             # deterministic RNG + world checksum
+│   └── world/             # deterministic RNG, world checksum and city car planning
 ├── tests/                 # world, protocol, store, API, relay, security, browser
 ├── deploy/coturn/         # optional self-hosted TURN
 ├── docs/                  # self-hosting and deployment guides
