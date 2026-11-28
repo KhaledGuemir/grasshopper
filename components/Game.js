@@ -360,6 +360,20 @@ export default function Game() {
               </span>
             </button>
             <div className="avatarPanel" id="avatarPanel" hidden={!avatarOpen}>
+              <div className="avatarPreviewWrap">
+                <canvas
+                  id="avPreview"
+                  className="avatarPreview"
+                  width="320"
+                  height="240"
+                  tabIndex={0}
+                  role="img"
+                  aria-label="Avatar preview. Drag, or use the left and right arrow keys, to turn the character."
+                />
+                <span className="avatarPreviewNote" id="avPreviewNote">
+                  Drag to spin
+                </span>
+              </div>
               <div className="avatarGrid">
                 <label className="avatarField">
                   Skin
@@ -408,8 +422,13 @@ export default function Game() {
                 <button className="avatarReset" id="avReset" type="button">
                   Reset look
                 </button>
-                <span className="avatarNote">Friends see this avatar. Press F3 for third person.</span>
+                <span className="avatarSaved" id="avSaved" role="status" aria-live="polite">
+                  Saved on this device
+                </span>
               </div>
+              <span className="avatarNote">
+                Friends see this avatar — press <kbd>F3</kbd> for third person.
+              </span>
             </div>
           </div>
           <button className="btn" id="play" type="button">
