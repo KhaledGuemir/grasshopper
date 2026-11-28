@@ -130,6 +130,35 @@ kbd{font-family:var(--body);font-weight:800;background:#fff;border:2px solid var
 .mpStatus{min-height:1.4em;font-size:13px !important;font-weight:700;margin:2px 0 10px !important;color:var(--barn)}
 
 /* Invite panel */
+/* Inventory (Tab) */
+#inventoryPanel{z-index:45}
+.invCard{width:min(820px,100%);max-height:calc(100dvh - 32px);overflow:auto}
+.invHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.invHead h1{margin:0 0 2px}
+.invStats{font-size:12px;font-weight:800;letter-spacing:.03em;opacity:.72;margin:0 0 12px}
+.invClose{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);box-shadow:0 3px 0 var(--ink);font-family:var(--display);font-size:26px;line-height:1;color:var(--ink);cursor:pointer;padding:0}
+.invClose:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.invClose:focus-visible{outline:3px solid var(--barn);outline-offset:2px}
+.invGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 12px}
+.invSection{min-width:0;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:10px 12px;box-sizing:border-box}
+.invSection h2{font-family:var(--display);font-weight:400;font-size:21px;line-height:1;margin:0 0 8px;color:var(--barn)}
+.invList{display:flex;flex-direction:column;gap:6px}
+.invItem{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;font:inherit;color:var(--ink);text-align:left;background:#fffdf5;border:2px solid rgba(36,51,28,.35);border-radius:10px;padding:7px 9px;cursor:pointer}
+.invItem:hover{border-color:var(--ink);background:#fff}
+.invItem.active{background:var(--hay);border-color:var(--ink)}
+.invItem:focus-visible{outline:3px solid var(--barn);outline-offset:1px}
+.invItem .invName{font-weight:800;font-size:14px;line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.invItem .invMeta{font-size:11px;font-weight:800;opacity:.7;white-space:nowrap}
+.invItem.static{cursor:default}
+.invItem.static:hover{border-color:rgba(36,51,28,.35);background:#fffdf5}
+.invEmpty{font-size:12px;font-weight:700;opacity:.62;padding:3px 2px}
+.invNotes{display:flex;flex-direction:column;gap:4px;font-size:13px;line-height:1.35}
+.invNotes b{font-size:17px}
+.invChips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.invChip{font-size:10px;font-weight:800;background:var(--hay);border:2px solid var(--ink);border-radius:999px;padding:1px 7px;white-space:nowrap}
+.invHint{margin:2px 0 0 !important;text-align:center}
+@media(max-width:700px){.invGrid{grid-template-columns:1fr}.invCard{max-height:calc(100dvh - 24px)}}
+
 #invitePanel{z-index:40}
 #netLost{z-index:60}
 #webglError{z-index:70}

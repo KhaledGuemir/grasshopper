@@ -217,6 +217,7 @@ No paid service or payment method is required for the default setup.
 | **Q** | Cycle through the swords you own |
 | **P** | Open the admin panel |
 | **B** | Toggle admin fly mode |
+| **Tab** | Open or close your inventory (weapons, blades, armor, field notes) |
 | **I** | Open the multiplayer invite panel (code, link, QR) |
 | **M** | Mute / unmute sound |
 | **F2** | Toggle the cheat console |

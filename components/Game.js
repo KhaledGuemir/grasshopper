@@ -623,6 +623,43 @@ export default function Game() {
         </div>
       </div>
 
+      <div className="wrap" id="inventoryPanel" hidden>
+        <div className="card invCard">
+          <div className="invHead">
+            <div>
+              <h1>Inventory</h1>
+              <div className="invStats" id="invStats">
+                Hearts 10/10 · Food 10/10
+              </div>
+            </div>
+            <button className="invClose" id="invClose" type="button" aria-label="Close inventory" title="Close inventory (Tab)">
+              ×
+            </button>
+          </div>
+          <div className="invGrid">
+            <section className="invSection">
+              <h2>Weapons</h2>
+              <div className="invList" id="invGuns" />
+            </section>
+            <section className="invSection">
+              <h2>Blades</h2>
+              <div className="invList" id="invSwords" />
+            </section>
+            <section className="invSection">
+              <h2>Armor</h2>
+              <div className="invList" id="invArmor" />
+            </section>
+            <section className="invSection">
+              <h2>Field notes</h2>
+              <div className="invList" id="invNotes" />
+            </section>
+          </div>
+          <p className="mpNote invHint">
+            Press <kbd>Tab</kbd> or <kbd>Esc</kbd> to close · click an owned weapon or blade to equip it.
+          </p>
+        </div>
+      </div>
+
       <div className="wrap" id="invitePanel" hidden>
         <div className="card inviteCard">
           <h1>Invite players</h1>
